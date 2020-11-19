@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     19.11.2020 18:47:37                          */
+/* Created on:     19.11.2020 22:41:36                          */
 /*==============================================================*/
 
 
@@ -12,7 +12,7 @@ drop table if exists Uporabnik;
 
 drop table if exists Vloga;
 
-drop table if exists "je vsebovan v";
+drop table if exists sestavlja;
 
 /*==============================================================*/
 /* Table: Artikel                                               */
@@ -33,11 +33,10 @@ create table Artikel
 create table Naročilo
 (
    order_id             int not null,
-   Upo_costumer_id      int not null,
+   costumer_id          int not null,
    articles             text not null,
    total_price          float not null,
-   costumer_id          int not null,
-   order_status         char(10) not null,
+   order_status         int not null,
    primary key (order_id)
 );
 
@@ -47,7 +46,7 @@ create table Naročilo
 create table Uporabnik
 (
    costumer_id          int not null,
-   Vlo_vloga_id         char(10) not null,
+   vloga_id             int not null,
    name                 text not null,
    surname              text not null,
    street               text not null,
@@ -56,7 +55,6 @@ create table Uporabnik
    post_number          int not null,
    email                text not null,
    geslo                text not null,
-   vloga_id             int not null,
    primary key (costumer_id)
 );
 
@@ -65,30 +63,30 @@ create table Uporabnik
 /*==============================================================*/
 create table Vloga
 (
-   vloga_id             char(10) not null,
+   vloga_id             int not null,
    ime_vloge            text not null,
    primary key (vloga_id)
 );
 
 /*==============================================================*/
-/* Table: "je vsebovan v"                                       */
+/* Table: sestavlja                                             */
 /*==============================================================*/
-create table "je vsebovan v"
+create table sestavlja
 (
-   order_id             int not null,
    article_id           int not null,
-   primary key (order_id, article_id)
+   order_id             int not null,
+   primary key (article_id, order_id)
 );
 
-alter table Naročilo add constraint FK_naroči foreign key (Upo_costumer_id)
+alter table Naročilo add constraint FK_odda foreign key (costumer_id)
       references Uporabnik (costumer_id) on delete restrict on update restrict;
 
-alter table Uporabnik add constraint FK_ima foreign key (Vlo_vloga_id)
+alter table Uporabnik add constraint FK_ima foreign key (vloga_id)
       references Vloga (vloga_id) on delete restrict on update restrict;
 
-alter table "je vsebovan v" add constraint "FK_je vsebovan v" foreign key (order_id)
-      references Naročilo (order_id) on delete restrict on update restrict;
-
-alter table "je vsebovan v" add constraint "FK_je vsebovan v2" foreign key (article_id)
+alter table sestavlja add constraint FK_sestavlja foreign key (article_id)
       references Artikel (article_id) on delete restrict on update restrict;
+
+alter table sestavlja add constraint FK_sestavlja foreign key (order_id)
+      references Naročilo (order_id) on delete restrict on update restrict;
 
