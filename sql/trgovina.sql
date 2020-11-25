@@ -1,18 +1,16 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     19.11.2020 22:41:36                          */
+/* Created on:     25.11.2020 8:29:23                           */
 /*==============================================================*/
+
+drop database if exists trgovina;
+create database trgovina;
+use trgovina;
 
 
 drop table if exists Artikel;
 
-drop table if exists Naročilo;
-
 drop table if exists Uporabnik;
-
-drop table if exists Vloga;
-
-drop table if exists sestavlja;
 
 /*==============================================================*/
 /* Table: Artikel                                               */
@@ -28,25 +26,11 @@ create table Artikel
 );
 
 /*==============================================================*/
-/* Table: Naročilo                                              */
-/*==============================================================*/
-create table Naročilo
-(
-   order_id             int not null,
-   costumer_id          int not null,
-   articles             text not null,
-   total_price          float not null,
-   order_status         int not null,
-   primary key (order_id)
-);
-
-/*==============================================================*/
 /* Table: Uporabnik                                             */
 /*==============================================================*/
 create table Uporabnik
 (
    costumer_id          int not null,
-   vloga_id             int not null,
    name                 text not null,
    surname              text not null,
    street               text not null,
@@ -54,39 +38,23 @@ create table Uporabnik
    post                 text not null,
    post_number          int not null,
    email                text not null,
-   geslo                text not null,
+   password                text not null,
+   role                text not null,
    primary key (costumer_id)
 );
 
-/*==============================================================*/
-/* Table: Vloga                                                 */
-/*==============================================================*/
-create table Vloga
-(
-   vloga_id             int not null,
-   ime_vloge            text not null,
-   primary key (vloga_id)
-);
+insert into Artikel (article_id, article_name, article_price, article_description,  article_status) values
+(1, "Krajnska klobasa", 3.45, "Dimljena klobasa", TRUE),
+(2, "Kekec pašteta", 1.34, "Pašteta, ki ni iz Kekca", TRUE),
+(3, "Pisalo modro", 0.78, "Pisalo za pisanje - modro", FALSE),
+(4, "Žemlja bela", 0.25, "Bela žemlja, velika", FALSE),
+(5, "Računalnik", 794.91, "Računalnik - PC, HP", TRUE);
 
-/*==============================================================*/
-/* Table: sestavlja                                             */
-/*==============================================================*/
-create table sestavlja
-(
-   article_id           int not null,
-   order_id             int not null,
-   primary key (article_id, order_id)
-);
+INSERT INTO `Uporabnik` (costumer_id, name, surname, street, house_number,post,post_number,email,password,role) VALUES
 
-alter table Naročilo add constraint FK_odda foreign key (costumer_id)
-      references Uporabnik (costumer_id) on delete restrict on update restrict;
+(1, 'Ivan', 'Bratko', 'Vecna pot',113,'Ljubljana',1000,'ivan@gmail.com','alala','administrator'),
+(2, 'Mici', 'Luna', 'Vecna pot',115,'Ljubljana',1000,'mici@gmail.com','1234','prodajalec'),
+(3, 'Jo', 'Kip', 'Vesela cesta',1,'Ljubljana',1000,'jo@gmail.com','jooo','stranka');
 
-alter table Uporabnik add constraint FK_ima foreign key (vloga_id)
-      references Vloga (vloga_id) on delete restrict on update restrict;
-
-alter table sestavlja add constraint FK_sestavlja foreign key (article_id)
-      references Artikel (article_id) on delete restrict on update restrict;
-
-alter table sestavlja add constraint FK_sestavlja foreign key (order_id)
-      references Naročilo (order_id) on delete restrict on update restrict;
-
+select *
+from Uporabnik
