@@ -32,7 +32,7 @@
         $post = $row["post"];
         $post_number = $row["post_number"];
         $email = $row["email"];
-        $status = $row["status"];
+        $id = $row["costumer_id"]
 
        # echo "<p><b>$date</b>. $text [<a href='$url'>Uredi</a>]";
        ?>
@@ -44,17 +44,23 @@
           <td><?=$post?></td>
           <td><?=$post_number?></td>
           <td><?=$email?></td>
-          <td><?php
+          <!-- <td><?php
                   if ($status==true){
                         echo "aktiven";
                   }else{
                         echo "ne-aktiven";
                   }
               ?>
-          </td>
+          </td>-->
           
           </td>
-          <td><a href='http://localhost/netbeans/seminarska_naloga/index.php/seminarska_naloga/stranka-odstrani'>Odstrani stranko</a></td>
+          <td>
+            <form action="<?= BASE_URL . "seminarska_naloga/zbrisi_profil" ?>" method="post">
+                <input type="hidden" name="id" value="<?= $id?>"/>
+                <input type="submit" value="Odstrani stranko" class="registerbtn" >
+            </form>
+          </td>
+
     </tr>
 	
            

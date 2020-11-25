@@ -1,8 +1,32 @@
 <?php
 require_once("ViewHelper.php");
+require_once("model/UserDB.php");
+
 class seminarskaController {
-    //preusmeri na registracijo
-    public static function registracija($values = [
+
+    //OPERACIJE UPORABNIKA
+
+    public static function registracija() {
+
+        $validData = isset($_POST["name"]) && !empty($_POST["name"]) &&
+                isset($_POST["surname"]) && !empty($_POST["surname"]) &&
+                isset($_POST["street"]) && !empty($_POST["street"]) && 
+                isset($_POST["house_number"]) && !empty($_POST["house_number"]) &&
+                isset($_POST["post"]) && !empty($_POST["post"]) &&
+                isset($_POST["post_number"]) && !empty($_POST["post_number"]) &&
+                isset($_POST["email"]) && !empty($_POST["email"]) &&
+                isset($_POST["password"]) && !empty($_POST["password"]);
+
+        if ($validData) {
+
+            UserDB::insert(12,$_POST["name"], $_POST["surname"], $_POST["street"], $_POST["house_number"], $_POST["post"], $_POST["post_number"], $_POST["email"], $_POST["password"], "stranka");
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+        } else {
+            self::showRegistracijaForm($_POST);
+        }
+    }
+
+    public static function showRegistracijaForm($values = [
         "name" => "",
         "surname" => "",
         "street" => "",
@@ -10,11 +34,10 @@ class seminarskaController {
         "post" => "",
         "post_number" => "",
         "password" => "",
-        "password_again" => ""
+        "email" => ""
         
-    ]) {
+    ]){
         echo ViewHelper::render("view/registracija.php", $values);
-       # ViewHelper::redirect(BASE_URL . "seminarska_naloga");
     }
     
     public static function prijava($values =[
@@ -23,7 +46,71 @@ class seminarskaController {
     ]){
         echo ViewHelper::render("view/prijava.php", $values);
     }
+
+    public static function editUser() {
+
+        $validData = isset($_POST["name"]) && !empty($_POST["name"]) &&
+                isset($_POST["surname"]) && !empty($_POST["surname"]) &&
+                isset($_POST["street"]) && !empty($_POST["street"]) && 
+                isset($_POST["house_number"]) && !empty($_POST["house_number"]) &&
+                isset($_POST["post"]) && !empty($_POST["post"]) &&
+                isset($_POST["post_number"]) && !empty($_POST["post_number"]) &&
+                isset($_POST["email"]) && !empty($_POST["email"]) &&
+                isset($_POST["password"]) && !empty($_POST["password"]);
+
+        if($validData){
+            UserDB::update($_POST["id"],$_POST["name"], $_POST["surname"], $_POST["street"], $_POST["house_number"], $_POST["post"], $_POST["post_number"], $_POST["email"], $_POST["password"], "stranka");
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+            //ViewHelper::redirect(BASE_URL . "user?id=" . $_POST["id"]);
+        } else {
+            self::showEditUserForm($_POST);
+        }
+    }
     
+    public static function showEditUserForm($user = []) {
+        if (empty($user)) {
+            $user = UserDB::get($_GET["id"]);
+        }
+
+        echo ViewHelper::render("view/uporabniki-edit.php", ["user" => $user]);
+    }
+
+    public static function deleteUser() {
+        $validDelete = isset($_POST["id"]) && !empty($_POST["id"]);
+
+        if ($validDelete) {
+            UserDB::delete($_POST["id"]);
+            $url = BASE_URL . "seminarska_naloga";
+        } else {
+            if (isset($_POST["id"])) {
+                $url = BASE_URL . "seminarska_naloga/uredi_profil?id=" . $_POST["id"];
+            } else {
+                $url = BASE_URL . "seminarska_naloga";
+            }
+        }
+
+        echo ViewHelper::redirect($url);
+    }
+
+    public static function getAllSellers() {
+
+        echo ViewHelper::render("view/prodajalci.php", [
+            "sellers" => UserDB::getUsersByRole("prodajalec")
+        ]);
+
+     }
+     
+      public static function getAllCustomers() {
+
+        echo ViewHelper::render("view/stranke.php", [
+            "customers" => UserDB::getUsersByRole("stranka")
+        ]);
+
+     }
+
+
+    //OPERACIJE ARTIKLOV IN NAROČIL
+
      public static function getAllArticles() {
          #getAll ARTIKLE
          # to boma rabla za po bazi sam zaenkrat še ne
@@ -69,99 +156,6 @@ class seminarskaController {
         return $a;
      }
      
-     public static function getAllSellers() {
-
-         #$db = DBInit::getInstance();
- 
-         #$statement = $db->prepare("SELECT id, joke_text, joke_date FROM jokes");
-         
-         #$statement->execute();
- 
-         #return $statement->fetchAll();
-         
-        $sellers = array(
-                    array(
-                            "name" => "Štefan",
-                            "surname" => "Mori",
-                            "street" => "Večna Pot",
-                            "house_number" => 113,
-                            "post" => "Ljubljana",
-                            "post_number" => 1000,
-                            "email" => "Stefan@gmail.com",
-                            "status" => FALSE
-                        
-                ),
-                    array(
-                            "name" => "Mica",
-                            "surname" => "Lovrak",
-                            "street" => "Večna Pot",
-                            "house_number" => "114",
-                            "post" => "Ljubljana",
-                            "post_number" => "1000",
-                            "email" => "mica@gmail.com",
-                            "status" => TRUE
-                ),
-                    array(
-                            "name" => "Dup",
-                            "surname" => "Božec",
-                            "street" => "Večna Pot",
-                            "house_number" => "116",
-                            "post" => "Ljubljana",
-                            "post_number" => "1000",
-                            "email" => "dup@gmail.com",
-                            "status" => TRUE 
-                )           
-        );
-
-        return $sellers;
-     }
-     
-      public static function getAllCustomers() {
-
-         #$db = DBInit::getInstance();
- 
-         #$statement = $db->prepare("SELECT id, joke_text, joke_date FROM jokes");
-         
-         #$statement->execute();
- 
-         #return $statement->fetchAll();
-         
-        $customers = array(
-                    array(
-                            "name" => "Lisa",
-                            "surname" => "Robec",
-                            "street" => "Potniška",
-                            "house_number" => 12,
-                            "post" => "Koper",
-                            "post_number" => 1111,
-                            "email" => "Lisa@gmail.com",
-                            "status" => TRUE 
-                        
-                ),
-                    array(
-                            "name" => "Borut",
-                            "surname" => "Great",
-                            "street" => "Mestni log",
-                            "house_number" => "24",
-                            "post" => "Ljubljana",
-                            "post_number" => "1000",
-                            "email" => "borut@gmail.com",
-                            "status" => TRUE 
-                ),
-                    array(
-                            "name" => "Miran",
-                            "surname" => "Laznik",
-                            "street" => "Marinova cesta",
-                            "house_number" => "6",
-                            "post" => "Ljubljana",
-                            "post_number" => "1000",
-                            "email" => "miran@gmail.com",
-                            "status" => TRUE 
-                )            
-        );
-
-        return $customers;
-     }
      
      public static function insertForm($values = [
          #vztavljanje artikla
@@ -188,31 +182,14 @@ class seminarskaController {
     
     public static function uredi ($id, $joke_text, $joke_date) {
         seminarskaController::article_edit();
-        #$db = DBinit::getInstance();
-        #$statement = $db->prepare("UPDATE jokes SET joke_text =:joke_text, joke_date =:joke_date WHERE id=:id");
-        #$statement->bindParam(":id", $id);
-        #$statement->bindParam(":joke_date", $joke_date);
-        #$statement->bindParam(":joke_text", $joke_text);
-        
-        #$statement->execute();
+
     }
+
     public static function delete($id) {
-       # $db = DBInit::getInstance();
 
-       # $statement = $db->prepare("DELETE FROM jokes WHERE id = :id");
-       # $statement->bindParam(":id", $id, PDO::PARAM_INT);
-       # $statement->execute();
     }
+
     public static function getAll_orders() {
-        #getAll NAROČILA
-        # to boma rabla za po bazi sam zaenkrat še ne
-        #$db = DBInit::getInstance();
-
-        #$statement = $db->prepare("SELECT id, joke_text, joke_date FROM jokes");
-        
-        #$statement->execute();
-
-        #return $statement->fetchAll();
         
        $a = array(
                    array(
@@ -248,33 +225,4 @@ class seminarskaController {
        return $a;
     }
     
-    public static function showEditUserForm($user = []) {
-        if (empty($user)) {
-            //$user = UserDB::get($_GET["id"]);
-        }
-
-        echo ViewHelper::render("view/uporabniki-edit.php", ["user" => $user]);
-    }
-
-    public static function editUser() {
-
-        $validData = isset($_POST["name"]) && !empty($_POST["name"]) &&
-                isset($_POST["surname"]) && !empty($_POST["surname"]) &&
-                isset($_POST["street"]) && !empty($_POST["street"]) &&
-                isset($_POST["house_number"]) && !empty($_POST["house_number"]) &&
-                isset($_POST["post"]) && !empty($_POST["post"])&&
-                isset($_POST["post_number"]) && !empty($_POST["post_number"])&&
-                isset($_POST["password"]) && !empty($_POST["password"])&&
-                isset($_POST["email"]) && !empty($_POST["email"])&&
-                isset($_POST["id"]) && !empty($_POST["id"]);
-
-        if ($validData) {
-            //UserDB::update($_POST["id"], $_POST["name"], $_POST["surname"], $_POST["street"], $_POST["house_number"],$_POST["post"],$_POST["post_number"],$_POST["password"],$_POST["email"]);
-            ViewHelper::redirect(BASE_URL . "user?id=" . $_POST["id"]);
-        } else {
-            self::showEditForm($_POST);
-        }
-    }
- 
-     
 }

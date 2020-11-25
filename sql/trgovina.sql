@@ -55,6 +55,3 @@ INSERT INTO `Uporabnik` (costumer_id, name, surname, street, house_number,post,p
 (1, 'Ivan', 'Bratko', 'Vecna pot',113,'Ljubljana',1000,'ivan@gmail.com','alala','administrator'),
 (2, 'Mici', 'Luna', 'Vecna pot',115,'Ljubljana',1000,'mici@gmail.com','1234','prodajalec'),
 (3, 'Jo', 'Kip', 'Vesela cesta',1,'Ljubljana',1000,'jo@gmail.com','jooo','stranka');
-
-select *
-from Uporabnik
