@@ -23,10 +23,10 @@ $urls = [
         echo ViewHelper::render("view/zlistani_gumbi.php", []);
     },
     "seminarska_naloga/registracija" => function () {
-        #if ($_SERVER["REQUEST_METHOD"] == "POST") {        
-            #seminarskaController::registracija();
-        #}        
-        seminarskaController::registracija();
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {        
+            seminarskaController::registracija();
+        }        
+        seminarskaController::showRegistracijaForm();
     },
     "seminarska_naloga/prijava" => function (){    
         seminarskaController::prijava(); 
@@ -71,24 +71,27 @@ $urls = [
     },
     "seminarska_naloga/uredi_profil" => function () {
         
-        //if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        //    seminarskaController::editUser();
-        //} else {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            seminarskaController::editUser();
+        } else {
             seminarskaController::showEditUserForm();
            
-        //}
+        }
+    },
+    "seminarska_naloga/zbrisi_profil" => function () {
+        
+        seminarskaController::deleteUser();
+
     },
     "seminarska_naloga/prodajalci" => function () {
         
-        echo ViewHelper::render("view/prodajalci.php", [
-            "sellers" => seminarskaController::getAllSellers()
-        ]);
+        seminarskaController::getAllSellers();
+
     },
     "seminarska_naloga/stranke" => function () {
-        
-        echo ViewHelper::render("view/stranke.php", [
-            "customers" => seminarskaController::getAllCustomers()
-        ]);
+
+        seminarskaController::getAllCustomers();
+
     },
     "seminarska_naloga/trgovina" => function () {
         
