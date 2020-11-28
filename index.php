@@ -35,25 +35,26 @@ $urls = [
         ViewHelper::redirect(BASE_URL . "seminarska_naloga");
     },
     "seminarska_naloga/artikli" => function () {
-        
-        echo ViewHelper::render("view/artikli.php", [
-            "articles" => seminarskaController::getAllArticles()
-        ]);
-       
+        seminarskaController::getAllArticles();       
     },
     "seminarska_naloga/artikli-edit" => function () {
-        #if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        #    JokesController::insert();
-        #} else {
-            seminarskaController::article_edit();
-        #}
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            seminarskaController::editArticle();
+        } else {
+            seminarskaController::article_edit();           
+        }
     },
     "seminarska_naloga/artikli-add" => function () {
-        #if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        #    JokesController::insert();
-        #} else {
-            seminarskaController::insertForm();
-        #}
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {        
+            seminarskaController::dodaj_artikel();
+        }        
+        seminarskaController::insertFormArticles();
+    },
+    "seminarska_naloga/zbrisi_artikel" => function () {
+        
+        seminarskaController::deleteArticel();
+
     },
     "seminarska_naloga/ne-obdelana_narocila" => function () {
         

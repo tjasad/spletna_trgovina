@@ -111,53 +111,35 @@ class seminarskaController {
 
     //OPERACIJE ARTIKLOV IN NAROČIL
 
-     public static function getAllArticles() {
-         #getAll ARTIKLE
-         # to boma rabla za po bazi sam zaenkrat še ne
-         #$db = DBInit::getInstance();
- 
-         #$statement = $db->prepare("SELECT id, joke_text, joke_date FROM jokes");
-         
-         #$statement->execute();
- 
-         #return $statement->fetchAll();
-         
-        $a = array(
-                    array(
-                            'article_id' => 1,
-                            'article_name' => 'kranjska klobasa',
-                            'article_price' => 12.5,
-                            'article_description' => 'Mesnata klobasa, v naravnem ovitku.',
-                            'article_status' => TRUE,
-                ),
-                    array(
-                            'article_id' => 2,
-                            'article_name' => 'pariška klobasa',
-                            'article_price' => 23.43,
-                            'article_description' => 'Klobasa z okusom Pariza.',
-                            'article_status' => TRUE,
-                ),
-                    array(
-                            'article_id' => 3,
-                            'article_name' => 'milanska klobasa',
-                            'article_price' => 17.93,
-                            'article_description' => 'Klobasa z okusom Milana.',
-                            'article_status' => TRUE,
-                ),
-                    array(
-                            'article_id' => 4,
-                            'article_name' => 'savinjski želodec',
-                            'article_price' => 10.33,
-                            'article_description' => 'Savinjska specialiteta.',
-                            'article_status' => FALSE,
-                ),
-        );
-        #var_dump($a);
-        return $a;
+    public static function getAllArticles() {
+        echo ViewHelper::render("view/artikli.php", [
+            "articles" => ArticelDB::getAll()
+        ]);
      }
      
+     # **** za artikle z statusom - nisem 100% kak in kje bi to dejansko uporabu ****
+     #public static function getArticlesByStatus() {
+     #   echo ViewHelper::render("view/artikli.php", [
+     #       "articles" => ArticelDB::getArticlesByStatus($status)
+     #   ]);
+     # }
+     public static function dodaj_artikel(){
+        $validData = isset($_POST["article_id"]) && !empty($_POST["article_id"]) &&
+        isset($_POST["article_name"]) && !empty($_POST["article_name"]) &&
+        isset($_POST["article_price"]) && !empty($_POST["article_price"]) && 
+        isset($_POST["article_description"]) && !empty($_POST["article_description"]) &&
+        isset($_POST["article_status"]) && !empty($_POST["article_status"]);       
+
+        if ($validData) {
+
+            ArticelDB::insert($_POST["article_id"], $_POST["article_name"], $_POST["article_price"], $_POST["article_description"], $_POST["article_status"]);
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+        } else {
+            self::insertFormArticles($_POST);
+        }
+     }
      
-     public static function insertForm($values = [
+     public static function insertFormArticles($values = [
          #vztavljanje artikla
         "article_id" => "",
         "article_name" => "",
@@ -168,61 +150,50 @@ class seminarskaController {
     ]) {
         echo ViewHelper::render("view/artikli-add.php", $values);
     }
-    public static function article_edit($values = [
-        #urejanje artikla
-        "article_id" => "",
-        "article_name" => "",
-        "article_price" => "",
-        "article_description" => "",
-        "article_status" => ""
-        
-    ]) {
-        echo ViewHelper::render("view/artikli-edit.php", $values);
+
+    public static function editArticle() {
+        $validData = isset($_POST["article_id"]) && !empty($_POST["article_id"]) &&
+        isset($_POST["article_name"]) && !empty($_POST["article_name"]) &&
+        isset($_POST["article_price"]) && !empty($_POST["article_price"]) && 
+        isset($_POST["article_description"]) && !empty($_POST["article_description"]) &&
+        isset($_POST["article_status"]) && !empty($_POST["article_status"]);       
+
+        if ($validData) {
+
+            ArticelDB::update($_POST["article_id"], $_POST["article_name"], $_POST["article_price"], $_POST["article_description"], $_POST["article_status"]);
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+        } else {
+            self::article_edit($_POST);
+        }
     }
-    
-    public static function uredi ($id, $joke_text, $joke_date) {
-        seminarskaController::article_edit();
 
+    public static function article_edit($articel = []) {
+        if (empty($articel)) {
+            $articel = ArticelDB::get($_GET["id"]);
+        }
+
+        echo ViewHelper::render("view/artikli-edit.php", ["articel" => $articel]);
     }
 
-    public static function delete($id) {
+    public static function deleteArticel() {
+        $validDelete = isset($_POST["id"]) && !empty($_POST["id"]);
 
+        if ($validDelete) {
+            ArticelDB::delete($_POST["id"]);
+            $url = BASE_URL . "seminarska_naloga";
+        } else {
+            if (isset($_POST["id"])) {
+                $url = BASE_URL . "seminarska_naloga/artikli-edit?id=" . $_POST["id"];
+            } else {
+                $url = BASE_URL . "seminarska_naloga";
+            }
+        }
+
+        echo ViewHelper::redirect($url);
     }
 
     public static function getAll_orders() {
         
-       $a = array(
-                   array(
-                           'order_id' => 1,
-                           'articles' => 'kranjska klobasa, kislo zelje, krompir, čebula',
-                           'total_price' => 12.5,
-                           'costumer_id' => '12',
-                           'order_status' => '-1',
-               ),
-                   array(
-                           'order_id' => 2,
-                           'articles' => 'pariška klobasa, kisla repa, riž, česen',
-                           'total_price' => 23.43,
-                           'costumer_id' => '13',
-                           'order_status' => '0',
-               ),
-                   array(
-                           'order_id' => 3,
-                           'articles' => 'milanska klobasa, rdeče zelje, mlinci, prtešilj',
-                           'total_price' => 17.93,
-                           'costumer_id' => '14',
-                           'order_status' => '1',
-               ),
-                   array(
-                           'order_id' => 4,
-                           'articles' => 'savinjski želodec, kruh, sir, paprika',
-                           'total_price' => 10.33,
-                           'costumer_id' => '15',
-                           'order_status' => 1,
-               ),
-       );
-       #var_dump($a);
-       return $a;
     }
     
 }

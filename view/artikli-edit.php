@@ -6,9 +6,9 @@
 <body>
 <div>
 <h1>Urejanje/brisanje artikla</h1>
-<form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+<form action="<?= BASE_URL . "seminarska_naloga/artikli-edit" ?>" method="post">
   <div>
-    <input type="hidden" name="do" value="add" />
+    <input type="hidden" name="id" value="<?= $articel["article_id"]?>" />
     <label for="article_id"><b>Id artikla</b></label>
     <input type="text" placeholder="Vnesite id artikla" name="article_id" id="article_id" required><br/>
     <label for="article_name"><b>Naziv artikla</b></label>
@@ -24,11 +24,17 @@
     <option value="FALSE">Ne aktiven</option>    
   	</select>  
     
-    <input type="submit" value="Uredi artikel" class="registerbtn" />
-    <input type="submit" value="Zbriši artikel" class="registerbtn" />
+    <input type="submit" value="Posodobi" class="registerbtn" />    
   </div>
   
   </form>
+
+    <!-- izbriši artikel -->
+    <form action="<?= BASE_URL . "seminarska_naloga/zbrisi_artikel" ?>" method="post">
+        <input type="hidden" name="id" value="<?= $user["article_id"] ?>"/>
+        <label><b>Izbriši profil?</b></label><br>
+        <input type="submit" value="Izbriši" class="registerbtn" >
+    </form>
   
     <div>
         <form action="http://localhost/netbeans/seminarska_naloga/index.php/seminarska_naloga">
