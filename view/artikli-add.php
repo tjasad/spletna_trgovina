@@ -19,10 +19,11 @@
     <input type="text" placeholder="Vnesite opis artikla" name="article_description" id = "article_description" required><br/>
     
     <label for="article_status"><b>Status artikla</b></label>
-     <select>
-    <option value="TRUE">Aktiven</option>
-    <option value="FALSE">Ne aktiven</option>    
+     <select name="article_status" id="article_status">
+    <option value="1">Aktiven</option>
+    <option value="0">Ne aktiven</option>    
   	</select>  
+    
     
     <input type="submit" value="Dodaj artikel" class="registerbtn" />
   </div>

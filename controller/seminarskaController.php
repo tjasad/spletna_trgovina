@@ -1,6 +1,8 @@
 <?php
 require_once("ViewHelper.php");
 require_once("model/UserDB.php");
+require_once("model/OrderDB.php");
+require_once("model/ArticelDB.php");
 
 class seminarskaController {
 
@@ -123,15 +125,15 @@ class seminarskaController {
      #       "articles" => ArticelDB::getArticlesByStatus($status)
      #   ]);
      # }
-     public static function dodaj_artikel(){
+     public static function dodaj_artikel(){              
         $validData = isset($_POST["article_id"]) && !empty($_POST["article_id"]) &&
         isset($_POST["article_name"]) && !empty($_POST["article_name"]) &&
         isset($_POST["article_price"]) && !empty($_POST["article_price"]) && 
         isset($_POST["article_description"]) && !empty($_POST["article_description"]) &&
         isset($_POST["article_status"]) && !empty($_POST["article_status"]);       
-
-        if ($validData) {
-
+        
+        if ($validData) {              
+            var_dump($_POST);                 
             ArticelDB::insert($_POST["article_id"], $_POST["article_name"], $_POST["article_price"], $_POST["article_description"], $_POST["article_status"]);
             ViewHelper::redirect(BASE_URL . "seminarska_naloga");
         } else {
@@ -162,17 +164,23 @@ class seminarskaController {
 
             ArticelDB::update($_POST["article_id"], $_POST["article_name"], $_POST["article_price"], $_POST["article_description"], $_POST["article_status"]);
             ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+            //ViewHelper::redirect(BASE_URL . "articel?id=" . $_POST["id"]);
         } else {
             self::article_edit($_POST);
         }
     }
 
     public static function article_edit($articel = []) {
-        if (empty($articel)) {
-            $articel = ArticelDB::get($_GET["id"]);
+        if (empty($articel)) {            
+            $articel = ArticelDB::get($_GET["id"]);            
         }
-
-        echo ViewHelper::render("view/artikli-edit.php", ["articel" => $articel]);
+        #var_dump($articel["article_status"]);
+        $tmp = $articel["article_status"];
+        if ($tmp == '0'){
+            echo ViewHelper::render("view/artikli-edit2.php", ["articel" => $articel]);
+        }else{    
+            echo ViewHelper::render("view/artikli-edit.php", ["articel" => $articel]);
+        }
     }
 
     public static function deleteArticel() {
@@ -192,8 +200,10 @@ class seminarskaController {
         echo ViewHelper::redirect($url);
     }
 
-    public static function getAll_orders() {
-        
+    public static function getNeobdelanaNarocila() {        
+        echo ViewHelper::render("view/ne-obdelana_narocila.php", [
+            "orders" => OrderDB::getAll()
+        ]);
     }
     
 }

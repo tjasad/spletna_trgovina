@@ -25,15 +25,16 @@ class ArticelDB {
     public static function get($id) {
 
         $db = DBInit::getInstance();
+       
 
         $statement = $db->prepare("SELECT * FROM Artikel
             WHERE article_id  = :id");
         $statement->bindParam(":id", $id, PDO::PARAM_INT);
-        $statement->execute();
+        $statement->execute();       
 
-        $book = $statement->fetch();
+        $book = $statement->fetch();        
 
-        if ($book != null) {
+        if ($book != null) {            
             return $book;
         } else {
             throw new InvalidArgumentException("No record with id $id");

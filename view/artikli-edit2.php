@@ -20,8 +20,8 @@
    
     <label for="article_status"><b>Status artikla</b></label>
      <select>
-    <option value="1">Aktiven</option>
-    <option value="0">Ne aktiven</option>    
+     <option value="0">Ne aktiven</option> 
+    <option value="1">Aktiven</option>       
   	</select>  
     
     <input type="submit" value="Posodobi" class="registerbtn" />    

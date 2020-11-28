@@ -45,7 +45,9 @@
                   }
               ?>
           </td>
-          <td><a href='http://localhost/netbeans/seminarska_naloga/index.php/seminarska_naloga/artikli-edit'>Uredi</a></td>
+          <td>         
+          <a href='http://localhost/netbeans/seminarska_naloga/index.php/seminarska_naloga/artikli-edit?id=<?=$id?>'>Uredi</a>
+          </td>
     </tr>
 
        		

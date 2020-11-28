@@ -38,7 +38,7 @@ $urls = [
         seminarskaController::getAllArticles();       
     },
     "seminarska_naloga/artikli-edit" => function () {
-
+      
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             seminarskaController::editArticle();
         } else {
