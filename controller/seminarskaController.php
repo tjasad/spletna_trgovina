@@ -115,8 +115,9 @@ class seminarskaController {
 
     public static function getAllArticles() {
         echo ViewHelper::render("view/artikli.php", [
-            "articles" => ArticelDB::getAll()
+            "articles" => ArticelDB::getAll()             
         ]);
+        #var_dump("articles" => ArticelDB::getAll())
      }
      
      # **** za artikle z statusom - nisem 100% kak in kje bi to dejansko uporabu ****

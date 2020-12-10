@@ -4,6 +4,7 @@
 session_start();
 
 require_once("controller/seminarskaController.php");
+require_once("model/ArticelDB.php");
 
 define("BASE_URL", $_SERVER["SCRIPT_NAME"] . "/");
 define("CSS_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/css/");
@@ -64,10 +65,80 @@ $urls = [
        
     },
     "seminarska_naloga/košarica" => function () {
+        $url = filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_SPECIAL_CHARS);
+        $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_CHARS);
+        if ($method == "POST") {
+            $validationRules = [
+                'do' => [
+                    'filter' => FILTER_VALIDATE_REGEXP,
+                    'options' => [
+                        // dopustne vrednosti spremenljivke do, popravi po potrebi
+                        "regexp" => "/^(add_into_cart|purge_cart|update_cart)$/"
+                    ]
+                ],
+                'id' => [
+                    'filter' => FILTER_VALIDATE_INT,
+                    'options' => ['min_range' => 0]
+                ],
+                'kolicina' => [
+                    'filter' => FILTER_VALIDATE_INT,
+                    'options' => ['min_range' => 0]
+                ]
+               
+            ];
+            $post = filter_input_array(INPUT_POST, $validationRules);
+             
+            switch ($post["do"]) {
+                case "add_into_cart":                   
+                    try {
+                        $knjiga = ArticelDB::get($post["id"]);
+                        #var_dump($knjiga['article_id']);
         
-        echo ViewHelper::render("view/košarica.php", [
-            "articles" => seminarskaController::getAllArticles()
-        ]);
+                        if (isset($_SESSION["cart"][$knjiga['article_id']])) {
+                            $_SESSION["cart"][$knjiga['article_id']]++;                            
+                        } else {
+                            $_SESSION["cart"][$knjiga['article_id']] = 1;
+                            #var_dump($_SESSION["cart"][$knjiga['article_id']]);
+                        }
+                    } catch (Exception $exc) {
+                        die($exc->getMessage());
+                    }
+                    break;
+                case "purge_cart":                    
+                    try{
+                        session_destroy();
+                        session_start();            
+                    } catch (Exception $ex) {
+                        die($exc->getMessage());
+                    }
+                   
+                    break;
+                case "update_cart":                          
+                          try {
+                            $nova_kolicina = $post["kolicina"];
+                            #print($nova_kolicina);
+                            $knjiga = ArticelDB::get($post["id"]);
+        
+                            if (isset($_SESSION["cart"][$knjiga['article_id']])) {
+                                $_SESSION["cart"][$knjiga['article_id']] = $nova_kolicina;
+                            } else {
+                                $_SESSION["cart"][$knjiga['article_id']] = $nova_kolicina;
+                            }
+                           # session.start();
+                    } catch (Exception $exc) {
+                            die($exc->getMessage());
+                    }
+                    break;                
+                default:
+                    // default naj bo prazen
+                    break;
+            }
+        }
+        
+       echo ViewHelper::render("view/košarica.php", [
+            "articles" => ArticelDB::getAll()
+       ]);
+       
        
     },
     "seminarska_naloga/uredi_profil" => function () {

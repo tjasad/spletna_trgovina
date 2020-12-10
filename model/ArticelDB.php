@@ -7,8 +7,9 @@ class ArticelDB {
     public static function getAll() {
         $db = DBInit::getInstance();
 
-        $statement = $db->prepare("SELECT article_id, article_name, article_price, article_description, article_status FROM Artikel");
+        $statement = $db->prepare("SELECT article_id, article_name, article_price, article_description, article_status FROM Artikel");        
         $statement->execute();
+        #var_dump($statement->fetchAll());
 
         return $statement->fetchAll();
     }
