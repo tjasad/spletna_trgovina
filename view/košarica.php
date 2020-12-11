@@ -5,7 +5,7 @@ $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_C
 ?>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "tabela.css" ?>">
         <meta charset="UTF-8" />
         <title>Košarica</title>
         <p>[
@@ -13,7 +13,16 @@ $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_C
         ]</p>
     </head>
     <body>
-        <h1>Košarica</h1>
+        <h1>Artikli</h1>
+        <table style="width:100%">
+            <tr>
+            <th>Id_artikla</th>
+            <th>Ime artikla</th>
+            <th>Cena artikla</th>
+            <th>Opis artikla</th>
+            <th>Status artikla</th>
+            <th>Dodaj</th>
+            </tr>
 
         <div id="main">
         <?php
@@ -26,12 +35,13 @@ $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_C
             ?>
                 <div class="book">
                     <form action="<?= $url ?>" method="post">
+                    <tr>
                         <input type="hidden" name="do" value="add_into_cart" />
                         <input type="hidden" name="id" value="<?= $id ?>" />
-                        <td><?=$id?></td>
-                        <td><?=$name?></td>
-                        <td><?=$price?>€</td>
-                        <td><?=$description?></td>
+                        <td><?=$id?></td>           
+                        <td><?=$name?></td>            
+                        <td><?=$price?>€</td>            
+                        <td><?=$description?></td>            
                         <td><?php
                                 if ($status==true){
                                         echo "aktiven";
@@ -40,15 +50,19 @@ $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_C
                                 }
                             ?>
                         </td>
+                        <td>
                             <button type="submit">V košarico</button>
+                        </td>
+                    </tr>
                     </form>
                 </div>
         <?php } ?>
-
+        </table>
         </div>
 
         <div class="cart">
-            <h3>Košarica</h3>
+            <h3>Košarica</h3>            
+            <table style="width:100%">
             <p><?php
             if (isset($_SESSION["cart"])) {
                # var_dump($_SESSION["cart"]);        
@@ -78,13 +92,16 @@ $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_C
                            $koncna_cena += ($price * $value);                          
                            ?>
                            <form action="<?= $url ?>" method="post">
+                           <tr>
                                 <input type="hidden" name="do" value="update_cart" />
                                 <input type="hidden" name="id" value="<?= $id ?>" />
+                                <td>
                                <p><input type="number" class="short_input" name="kolicina" value="<?= $my_val ?>"/> </p>
-                               <td><?=$id?></td>
-                                <td><?=$name?></td>
-                                <td><?=$price?>€</td>
-                                <td><?=$description?></td>
+                               </td>
+                               <td><?=$id?></td>             
+                                <td><?=$name?></td>             
+                                <td><?=$price?>€</td>             
+                                <td><?=$description?></td>             
                                 <td><?php
                                         if ($status==true){
                                                 echo "aktiven";
@@ -92,10 +109,12 @@ $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_C
                                                 echo "ne-aktiven";
                                         }
                                     ?>
-                                </td> 
+                                </td>
+                                <td>
                                <p><button type="submit">Posodobi</button></p>
+                               </td>
                                   
-                                     
+                           </tr>    
                            </form>
                            <?php
                            
@@ -121,6 +140,7 @@ $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_C
                 echo "Košara je prazna.";
             }            
             ?> </p>
-        </div>
+            </table>
+        </div>        
     </body>
 </html>
