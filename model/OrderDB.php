@@ -12,6 +12,7 @@ class OrderDB {
 
         return $statement->fetchAll();
     }
+    
     public static function getOrdersByStatus($status) {
         $db = DBInit::getInstance();
 
@@ -67,6 +68,7 @@ class OrderDB {
         $statement->bindParam(":total_price", $total_price);
         $statement->bindParam(":order_status", $order_status);      
         $statement->execute();
+        
     }
     public static function update($order_id, $costumer_id, $total_price, $order_status) {
         $db = DBInit::getInstance();

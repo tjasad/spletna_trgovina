@@ -32,7 +32,7 @@ create table Artikel
 /*==============================================================*/
 create table Kolicina
 (
-   id_kolicina          int not null,
+   id_kolicina          int NOT NULL AUTO_INCREMENT,
    order_id             int not null,
    article_id           int not null,
    overal               int not null,

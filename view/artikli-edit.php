@@ -5,7 +5,7 @@
 </head>
 <body>
 <div>
-<h1>Urejanje/brisanje artikla</h1>
+<h1>Urejanje artikla</h1>
 <form action="<?= BASE_URL . "seminarska_naloga/artikli-edit" ?>" method="post">
   <div>
     <input type="hidden" name="id" value="<?= $articel["article_id"]?>" />
@@ -30,11 +30,11 @@
   </form>
 
     <!-- izbriši artikel -->
-    <form action="<?= BASE_URL . "seminarska_naloga/zbrisi_artikel" ?>" method="post">
+   <!-- <form action="<?#= BASE_URL . "seminarska_naloga/zbrisi_artikel" #?>" method="post">
         <input type="hidden" name="id" value="<?= $articel["article_id"] ?>"/>
-        <label><b>Izbriši profil?</b></label><br>
+        <label><b>Izbriši artikel?</b></label><br>
         <input type="submit" value="Izbriši" class="registerbtn" >
-    </form>
+    </form> -->
   
     <div>
         <form action="http://localhost/netbeans/seminarska_naloga/index.php/seminarska_naloga">

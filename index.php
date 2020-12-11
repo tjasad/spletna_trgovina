@@ -17,7 +17,8 @@ $path = isset($_SERVER["PATH_INFO"]) ? trim($_SERVER["PATH_INFO"], "/") : "";
   var_dump(CSS_URL);
   var_dump($path);
   exit(); */
- 
+# *** globalne spremenljivke za določanje uniq ID-ja ***
+static $id_narocila = 1;
 // ROUTER: defines mapping between URLS and controllers
 $urls = [  
     "seminarska_naloga" => function(){        
@@ -52,17 +53,25 @@ $urls = [
         }        
         seminarskaController::insertFormArticles();
     },
-    "seminarska_naloga/zbrisi_artikel" => function () {
-        
-        seminarskaController::deleteArticel();
-
+    #"seminarska_naloga/zbrisi_artikel" => function () {
+    #    
+    #    seminarskaController::deleteArticel();
+    #  },
+    "seminarska_naloga/ne-obdelana_narocila" => function () {        
+        seminarskaController::getNeobdelanaNarocila();      
     },
-    "seminarska_naloga/ne-obdelana_narocila" => function () {
-        
-        echo ViewHelper::render("view/ne-obdelana_narocila.php", [
-            "orders" => seminarskaController::getAll_orders()
-        ]);
-       
+    "seminarska_naloga/ne_obdelana_narocila-edit" => function() {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            seminarskaController::editNarocila();
+        } else {
+            seminarskaController::order_edit();           
+        }
+    },
+    #"seminarska_naloga/izbrisi_narocilo" => function () {
+    #    seminarskaController::deleteOrder();
+    #},
+    "seminarska_naloga/uredi_kolicino" => function () {
+        seminarskaController::prikazKolicine();
     },
     "seminarska_naloga/košarica" => function () {
         $url = filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -140,6 +149,79 @@ $urls = [
        ]);
        
        
+    },
+    "seminarska_naloga/zakljucek" => function () {
+       # var_dump($id_kolicina); exit(54);
+        #print("Zaključi nakup\n");
+        $url = filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_SPECIAL_CHARS);
+        $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_CHARS);
+        if ($method == "POST") {
+            $validationRules = [
+                'do' => [
+                    'filter' => FILTER_VALIDATE_REGEXP,
+                    'options' => [
+                        // dopustne vrednosti spremenljivke do, popravi po potrebi
+                        "regexp" => "/^(add_into_cart|purge_cart|update_cart|save_order)$/"
+                    ]
+                ],
+                'id' => [
+                    'filter' => FILTER_VALIDATE_INT,
+                    'options' => ['min_range' => 0]
+                ],
+                'kolicina' => [
+                    'filter' => FILTER_VALIDATE_INT,
+                    'options' => ['min_range' => 0]
+                ]
+               
+            ];
+            $post = filter_input_array(INPUT_POST, $validationRules);
+             
+            switch ($post["do"]) {               
+                
+                case "save_order":                    
+                    #var_dump($GLOBALS['id_narocila']); 
+                    #$GLOBALS['id_narocila']+=1;
+                    #var_dump($GLOBALS['id_narocila']); exit(42);
+                    $cena = 0;
+                    foreach(ArticelDB::getAll() as $knjiga){ 
+                        if (isset($_SESSION["cart"][$knjiga['article_id']])){
+                            #var_dump($_SESSION["cart"][$knjiga['article_id']]);
+                            #var_dump((int)$knjiga['article_id']);
+                            $tmp_kolicina = $_SESSION["cart"][$knjiga['article_id']];
+                            $tmp_artikel_id = (int)$knjiga['article_id'];
+                            $tmp_cena = ((float)$knjiga['article_price'])*$tmp_kolicina;
+                            $cena+=$tmp_cena;
+                            #var_dump($tmp_kolicina, $tmp_artikel_id);
+                        }
+                    }
+                    #var_dump($cena);       
+                    #  i) dodam naročilo v bazo OrderDB -> zaenkrat vsi costumer_id == 1 TODO **** to je potrebno popraviti ****
+                    $aa = $GLOBALS['id_narocila'];                    
+                    $zadnji_id = seminarskaController::dodajNarocilo($aa, 1, $cena, 2);                    
+                                 
+                    #  ii) dodam v KolicinaDB
+                    foreach(ArticelDB::getAll() as $knjiga){ 
+                        if (isset($_SESSION["cart"][$knjiga['article_id']])){
+                            
+                            $tmp_kolicina = $_SESSION["cart"][$knjiga['article_id']];
+                            $tmp_artikel_id = (int)$knjiga['article_id'];                            
+                            $bb = $GLOBALS['id_narocila'];
+                            seminarskaController::dodajKolicino($bb, $tmp_artikel_id, $tmp_kolicina);                           
+                        }
+                    }
+                    $GLOBALS['$id_narocila']+=1;
+                    ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+                    break;
+                default:
+                    // default naj bo prazen
+                    break;
+            }
+        }
+
+        echo ViewHelper::render("view/predracun.php", [
+            "articles" => ArticelDB::getAll()
+       ]);
+
     },
     "seminarska_naloga/uredi_profil" => function () {
         

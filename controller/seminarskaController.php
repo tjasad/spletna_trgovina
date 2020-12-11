@@ -3,6 +3,7 @@ require_once("ViewHelper.php");
 require_once("model/UserDB.php");
 require_once("model/OrderDB.php");
 require_once("model/ArticelDB.php");
+require_once("model/KolicinaDB.php");
 
 class seminarskaController {
 
@@ -170,6 +171,36 @@ class seminarskaController {
             self::article_edit($_POST);
         }
     }
+    public static function editNarocila() {
+        $validData = isset($_POST["order_id"]) && !empty($_POST["order_id"]) &&
+        isset($_POST["costumer_id"]) && !empty($_POST["costumer_id"]) &&
+        isset($_POST["total_price"]) && !empty($_POST["total_price"]) && 
+        isset($_POST["order_status"]) && !empty($_POST["order_status"]);       
+
+        if ($validData) {
+
+            OrderDB::update($_POST["order_id"], $_POST["costumer_id"], $_POST["total_price"], $_POST["order_status"]);
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+            //ViewHelper::redirect(BASE_URL . "articel?id=" . $_POST["id"]);
+        } else {
+            self::order_edit($_POST);
+        }
+    }
+    public static function prikazKolicine($order = []) {
+       
+        $validDelete = isset($_POST["id"]) && !empty($_POST["id"]);
+
+        if ($validDelete) {
+            $order = KolicinaDB::getAll($_POST["id"]); 
+            echo ViewHelper::render("view/kolicina.php", ["articel" => $order]);
+        } else {
+            if (isset($_POST["id"])) {
+                $url = BASE_URL . "seminarska_naloga/ne_obdelana_narocila-edit?id=" . $_POST["id"];
+            } else {
+                $url = BASE_URL . "seminarska_naloga";
+            }
+        } 
+    }
 
     public static function article_edit($articel = []) {
         if (empty($articel)) {            
@@ -183,28 +214,64 @@ class seminarskaController {
             echo ViewHelper::render("view/artikli-edit.php", ["articel" => $articel]);
         }
     }
-
-    public static function deleteArticel() {
-        $validDelete = isset($_POST["id"]) && !empty($_POST["id"]);
-
-        if ($validDelete) {
-            ArticelDB::delete($_POST["id"]);
-            $url = BASE_URL . "seminarska_naloga";
-        } else {
-            if (isset($_POST["id"])) {
-                $url = BASE_URL . "seminarska_naloga/artikli-edit?id=" . $_POST["id"];
-            } else {
-                $url = BASE_URL . "seminarska_naloga";
-            }
-        }
-
-        echo ViewHelper::redirect($url);
+    public static function order_edit($order = []) {
+        if (empty($order)) {            
+            $order = OrderDB::get($_GET["id"]);            
+            #var_dump($order); exit();            
+        }          
+        echo ViewHelper::render("view/narocila_edit.php", ["articel" => $order]);        
     }
+
+    #public static function deleteArticel() {
+    #    $validDelete = isset($_POST["id"]) && !empty($_POST["id"]);
+    #
+    #    if ($validDelete) {
+    #        ArticelDB::delete($_POST["id"]);
+    #        $url = BASE_URL . "seminarska_naloga";
+    #    } else {
+    #        if (isset($_POST["id"])) {
+    #            $url = BASE_URL . "seminarska_naloga/artikli-edit?id=" . $_POST["id"];
+    #        } else {
+    #            $url = BASE_URL . "seminarska_naloga";
+    #        }
+    #    }
+
+    #    echo ViewHelper::redirect($url);
+    #}
+    # ** z tem so težave, ker so tabele povezane samo tak ni zahtevan v navodilih tak da je kul **
+    #public static function deleteOrder() {
+    #    $validDelete = isset($_POST["id"]) && !empty($_POST["id"]);
+    #
+    #    if ($validDelete) {
+    #        OrderDB::delete($_POST["id"]);
+    #        $url = BASE_URL . "seminarska_naloga";
+    #    } else {
+    #        if (isset($_POST["id"])) {
+    #            $url = BASE_URL . "seminarska_naloga/narocila_edit?id=" . $_POST["id"];
+    #        } else {
+    #            $url = BASE_URL . "seminarska_naloga";
+    #        }
+    #    }
+    #
+    #    echo ViewHelper::redirect($url);
+    #}
 
     public static function getNeobdelanaNarocila() {        
         echo ViewHelper::render("view/ne-obdelana_narocila.php", [
-            "orders" => OrderDB::getAll()
+            "orders" => OrderDB::getOrdersByStatus(2)
         ]);
+    }
+
+    # dodajanje naročila
+    public static function dodajNarocilo($id1, $id2, $price, $status){
+        OrderDB::insert($id1, $id2, $price, $status);
+        
+    }
+
+    #tabela KOLICINA
+    public static function dodajKolicino($id2, $id3, $cena){
+        #var_dump($id1);
+        KolicinaDB::insert($id2, $id3, $cena);
     }
     
 }
