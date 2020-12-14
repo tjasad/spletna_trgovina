@@ -2,9 +2,11 @@
 
 require_once "DBInit.php";
 
-class UserDB {
+class UserDB
+{
 
-    public static function getAll() {
+    public static function getAll()
+    {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("SELECT name, surname, street, house_number, post, post_number, email, role FROM Uporabnik");
@@ -13,7 +15,8 @@ class UserDB {
         return $statement->fetchAll();
     }
 
-    public static function getUsersByRole($role) {
+    public static function getUsersByRole($role)
+    {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("SELECT * FROM Uporabnik WHERE role = :role ");
@@ -23,7 +26,8 @@ class UserDB {
         return $statement->fetchAll();
     }
 
-    public static function getUserByEmailAndPasswod($email, $password) {
+    public static function getUserByEmailAndPasswod($email, $password)
+    {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("SELECT * FROM Uporabnik WHERE (email = :email AND password = :password)");
@@ -40,7 +44,8 @@ class UserDB {
         }
     }
 
-    public static function get($id) {
+    public static function get($id)
+    {
 
         $db = DBInit::getInstance();
 
@@ -58,7 +63,8 @@ class UserDB {
         }
     }
 
-    public static function insert($name, $surname, $street, $house_number, $post, $post_number, $email,$password,$role) {
+    public static function insert($name, $surname, $street, $house_number, $post, $post_number, $email, $password, $role)
+    {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("INSERT INTO Uporabnik (name, surname, street, house_number,post,post_number,email,password,role)
@@ -75,7 +81,8 @@ class UserDB {
         $statement->execute();
     }
 
-    public static function update($costumer_id,$name, $surname, $street, $house_number, $post, $post_number, $email,$password,$role) {
+    public static function update($costumer_id, $name, $surname, $street, $house_number, $post, $post_number, $email, $password, $role)
+    {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("UPDATE Uporabnik SET name = :name, surname = :surname, street = :street,
@@ -93,11 +100,12 @@ class UserDB {
         $statement->execute();
     }
 
-    public static function delete($id) {
+    public static function delete($id)
+    {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("DELETE FROM Uporabnik WHERE costumer_id = :id");
         $statement->bindParam(":id", $id, PDO::PARAM_INT);
         $statement->execute();
-    }      
+    }
 }

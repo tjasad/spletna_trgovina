@@ -2,10 +2,12 @@
 
 require_once "DBInit.php";
 
-class KolicinaDB {
+class KolicinaDB
+{
 
-    public static function insert ($order_id, $article_id, $overal){
-       # var_dump($id_kolicina);
+    public static function insert($order_id, $article_id, $overal)
+    {
+        # var_dump($id_kolicina);
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("INSERT INTO Kolicina (order_id, article_id, overal)
@@ -16,13 +18,15 @@ class KolicinaDB {
         $statement->bindParam(":overal", $overal);
         $statement->execute();
     }
-    public static function getAll($id) {
+
+    public static function getAll($id)
+    {
         $db = DBInit::getInstance();
-        
+
         $statement = $db->prepare("SELECT * FROM Kolicina WHERE order_id = :id ");
         $statement->bindParam(":id", $id, PDO::PARAM_INT);
         $statement->execute();
-        
+
         return $statement->fetchAll();
     }
 }
