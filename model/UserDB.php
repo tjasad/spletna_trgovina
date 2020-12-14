@@ -23,6 +23,23 @@ class UserDB {
         return $statement->fetchAll();
     }
 
+    public static function getUserByEmailAndPasswod($email, $password) {
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("SELECT * FROM Uporabnik WHERE (email = :email AND password = :password)");
+        $statement->bindParam(":email", $email, PDO::PARAM_STR);
+        $statement->bindParam(":password", $password, PDO::PARAM_STR);
+        $statement->execute();
+
+        $user = $statement->fetch();
+
+        if ($user != null) {
+            return $user;
+        } else {
+            throw new InvalidArgumentException("No user with email $email");
+        }
+    }
+
     public static function get($id) {
 
         $db = DBInit::getInstance();
@@ -32,21 +49,20 @@ class UserDB {
         $statement->bindParam(":id", $id, PDO::PARAM_INT);
         $statement->execute();
 
-        $book = $statement->fetch();
+        $user = $statement->fetch();
 
-        if ($book != null) {
-            return $book;
+        if ($user != null) {
+            return $user;
         } else {
             throw new InvalidArgumentException("No record with id $id");
         }
     }
 
-    public static function insert($costumer_id,$name, $surname, $street, $house_number, $post, $post_number, $email,$password,$role) {
+    public static function insert($name, $surname, $street, $house_number, $post, $post_number, $email,$password,$role) {
         $db = DBInit::getInstance();
 
-        $statement = $db->prepare("INSERT INTO Uporabnik (costumer_id, name, surname, street, house_number,post,post_number,email,password,role)
-            VALUES (:costumer_id, :name, :surname, :street, :house_number, :post, :post_number, :email, :password, :role)");
-        $statement->bindParam(":costumer_id", $costumer_id);
+        $statement = $db->prepare("INSERT INTO Uporabnik (name, surname, street, house_number,post,post_number,email,password,role)
+            VALUES (:name, :surname, :street, :house_number, :post, :post_number, :email, :password, :role)");
         $statement->bindParam(":name", $name);
         $statement->bindParam(":surname", $surname);
         $statement->bindParam(":street", $street);

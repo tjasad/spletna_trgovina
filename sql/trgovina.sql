@@ -69,6 +69,8 @@ create table Uporabnik
    primary key (costumer_id)
 );
 
+alter table Uporabnik
+  modify costumer_id int(11) not null AUTO_INCREMENT,AUTO_INCREMENT=5;
 alter table Kolicina add constraint FK_r2 foreign key (order_id)
       references Naročilo (order_id) on delete restrict on update restrict;
 

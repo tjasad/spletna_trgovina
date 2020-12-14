@@ -22,7 +22,7 @@ class seminarskaController {
 
         if ($validData) {
 
-            UserDB::insert(12,$_POST["name"], $_POST["surname"], $_POST["street"], $_POST["house_number"], $_POST["post"], $_POST["post_number"], $_POST["email"], $_POST["password"], "stranka");
+            UserDB::insert($_POST["name"], $_POST["surname"], $_POST["street"], $_POST["house_number"], $_POST["post"], $_POST["post_number"], $_POST["email"], $_POST["password"], "stranka");
             ViewHelper::redirect(BASE_URL . "seminarska_naloga");
         } else {
             self::showRegistracijaForm($_POST);

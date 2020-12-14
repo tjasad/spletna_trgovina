@@ -8,15 +8,14 @@
 <h1>Prijava</h1>
 <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
   <div>
-    <input type="hidden" name="do" value="add" />
+    <input type="hidden" name="do" value="log_in_user" />
     <label for="email"><b>Epošta</b></label>
-    <input type="email" placeholder="Vnesite epoštni naslov" name="email" id="email" /><br/>
+    <input type="email" placeholder="Vnesite epoštni naslov" name="email" id="email" value="<?= $email ?>"/><br/>
     <label for="geslo"><b>Geslo</b></label>
-    <input type="password" placeholder="Vnesite geslo" name="password" id = "geslo" required><br/>
+    <input type="password" placeholder="Vnesite geslo" name="password" id = "geslo" required value="<?= $password ?>"><br/>
     <input type="submit" value="Prijavi se" class="registerbtn" />
   </div>
   </form>
   </div>
 </body>
 </html>
-

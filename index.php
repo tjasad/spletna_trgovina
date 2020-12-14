@@ -11,14 +11,10 @@ define("CSS_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/css/");
 
 $path = isset($_SERVER["PATH_INFO"]) ? trim($_SERVER["PATH_INFO"], "/") : "";
 
-/* Uncomment to see the contents of variables
-  var_dump(BASE_URL);
-  var_dump(IMAGES_URL);
-  var_dump(CSS_URL);
-  var_dump($path);
-  exit(); */
+
 # *** globalne spremenljivke za določanje uniq ID-ja ***
 static $id_narocila = 1;
+
 // ROUTER: defines mapping between URLS and controllers
 $urls = [  
     "seminarska_naloga" => function(){        
@@ -30,8 +26,33 @@ $urls = [
         }        
         seminarskaController::showRegistracijaForm();
     },
-    "seminarska_naloga/prijava" => function (){    
-        seminarskaController::prijava(); 
+    "seminarska_naloga/prijava" => function (){
+        $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_CHARS);
+        if ($method == "POST") {
+            
+            switch ($_POST["do"]) {
+                case "log_in_user":
+                    try {
+                        $user = UserDB::getUserByEmailAndPasswod($_POST["email"],$_POST["password"]);
+                        var_dump($user['name']);
+
+                        $_SESSION["user"] = $user['costumer_id'];
+                        $_SESSION["role"] = $user['role'];
+                        ViewHelper::redirect(BASE_URL . "seminarska_naloga/košarica");
+
+                    } catch (Exception $exc) {
+                        //TODO tu se bo moglo neki drugeg anarest
+                        ViewHelper::redirect(BASE_URL . "seminarska_naloga/prijava");
+                    }
+                    break;
+                default:
+                    // default naj bo prazen
+                    break;
+            }
+
+        }else{
+            seminarskaController::prijava();
+        }
     },
     "" => function () {        
         ViewHelper::redirect(BASE_URL . "seminarska_naloga");
@@ -117,7 +138,7 @@ $urls = [
                     try{
                         session_destroy();
                         session_start();            
-                    } catch (Exception $ex) {
+                    } catch (Exception $exc) {
                         die($exc->getMessage());
                     }
                    
