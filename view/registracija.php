@@ -34,7 +34,7 @@
   
     <div>
         <form action="http://localhost/netbeans/seminarska_naloga/index.php/seminarska_naloga">
-            <input type="submit" value="DOMOV" class="signbtn" >
+            <input type="submit" value="Trgovina" class="signbtn" >
         </form>
     </div>
 

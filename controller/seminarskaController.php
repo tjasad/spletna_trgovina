@@ -72,6 +72,9 @@ class seminarskaController {
     
     public static function showEditUserForm($user = []) {
         if (empty($user)) {
+            //ce je empty se gre za urejanje trenutnega userja
+            //poberi ga iz  seje
+            //TODO
             $user = UserDB::get($_GET["id"]);
         }
 

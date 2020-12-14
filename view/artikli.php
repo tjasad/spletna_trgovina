@@ -1,16 +1,26 @@
 <!DOCTYPE html>
-<h1>Vsi artikli</h1>
-
-<p>[
-<a href="<?= BASE_URL . "seminarska_naloga" ?>">Domov</a> |
-<a href="<?= BASE_URL . "seminarska_naloga/artikli" ?>">Vsi artikli</a> |
-<a href="<?= BASE_URL . "seminarska_naloga/artikli-add" ?>">Dodaj artikel</a>
-]</p>
-
 <head>
      <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "tabela.css" ?>">
 </head>
 <body>
+<h1>Vsi artikli</h1>
+<p>[
+<!--Anonimni uporabnik|Stranka|Prodajalec|Admin-->
+<a href="<?= BASE_URL . "seminarska_naloga/trgovina" ?>">Domov</a> |
+<a href="<?= BASE_URL . "seminarska_naloga/prijava" ?>">Prijava</a> |
+<!--Stranka|Prodajalec|Admin-->
+<a href="<?= BASE_URL . "seminarska_naloga/uredi_profil" ?>">Uredi profil</a> |
+<a href="<?= BASE_URL . "seminarska_naloga/registracija" ?>">Dodaj stranko</a> |
+<!--Prodajalec|Admin-->
+<a href="<?= BASE_URL . "seminarska_naloga/ne-obdelana_narocila" ?>">neobdelana naročila</a> |
+<a href="<?= BASE_URL . "seminarska_naloga/artikli" ?>">artikli</a> |
+<a href="<?= BASE_URL . "seminarska_naloga/artikli-add" ?>">dodaj artikel</a> |
+<a href="<?= BASE_URL . "seminarska_naloga/stranke" ?>">stranke</a> |
+<!--Admin-->
+<a href="<?= BASE_URL . "seminarska_naloga/prodajalci" ?>">prodajalci</a> 
+
+]</p>
+
 <table style="width:100%">
     <tr>
     <th>Id_artikla</th>

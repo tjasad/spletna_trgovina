@@ -42,8 +42,8 @@
                     </li>
                     <li>
                         <div>
-                            <form action="http://localhost/netbeans/seminarska_naloga/index.php/seminarska_naloga/košarica">
-                                <input type="submit" value="Košarica" class="signbtn" >
+                            <form action="http://localhost/netbeans/seminarska_naloga/index.php/seminarska_naloga/trgovina">
+                                <input type="submit" value="Trgovina" class="signbtn" >
                             </form>
                         </div>
                     </li>                    

@@ -18,7 +18,7 @@ static $id_narocila = 1;
 // ROUTER: defines mapping between URLS and controllers
 $urls = [  
     "seminarska_naloga" => function(){        
-        echo ViewHelper::render("view/zlistani_gumbi.php", []);
+        ViewHelper::redirect(BASE_URL . "seminarska_naloga/trgovina");
     },
     "seminarska_naloga/registracija" => function () {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {        
@@ -38,7 +38,7 @@ $urls = [
 
                         $_SESSION["user"] = $user['costumer_id'];
                         $_SESSION["role"] = $user['role'];
-                        ViewHelper::redirect(BASE_URL . "seminarska_naloga/košarica");
+                        ViewHelper::redirect(BASE_URL . "seminarska_naloga/trgovina");
 
                     } catch (Exception $exc) {
                         //TODO tu se bo moglo neki drugeg anarest
@@ -94,7 +94,7 @@ $urls = [
     "seminarska_naloga/uredi_kolicino" => function () {
         seminarskaController::prikazKolicine();
     },
-    "seminarska_naloga/košarica" => function () {
+    "seminarska_naloga/trgovina" => function () {
         $url = filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_SPECIAL_CHARS);
         $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_CHARS);
         if ($method == "POST") {
@@ -168,6 +168,9 @@ $urls = [
        echo ViewHelper::render("view/košarica.php", [
             "articles" => ArticelDB::getAll()
        ]);
+       
+       
+        
        
        
     },
@@ -250,7 +253,7 @@ $urls = [
             seminarskaController::editUser();
         } else {
             seminarskaController::showEditUserForm();
-           
+
         }
     },
     "seminarska_naloga/zbrisi_profil" => function () {
@@ -268,11 +271,9 @@ $urls = [
         seminarskaController::getAllCustomers();
 
     },
-    "seminarska_naloga/trgovina" => function () {
+    "seminarska_naloga/vsi_linki" => function () {
         
-        echo ViewHelper::render("view/trgovina.php", [
-            "articles" => seminarskaController::getAllArticles()
-        ]);
+        echo ViewHelper::render("view/zlistani_gumbi.php", []);
     }
     
             

@@ -10,7 +10,7 @@ $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_C
         <title>Predračun</title>
         <p>[
         <a href="<?= BASE_URL . "seminarska_naloga" ?>">Domov</a>][
-        <a href="<?= BASE_URL . "seminarska_naloga/košarica" ?>">Nazaj na nakupovanje</a>
+        <a href="<?= BASE_URL . "seminarska_naloga/trgovina" ?>">Nazaj na nakupovanje</a>
         ]</p>
     </head>
     <body>

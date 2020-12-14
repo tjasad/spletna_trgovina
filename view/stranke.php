@@ -2,8 +2,20 @@
 <h1>Stranke</h1>
 
 <p>[
-<a href="<?= BASE_URL . "seminarska_naloga" ?>">Domov</a> |
-<a href="<?= BASE_URL . "" ?>">Dodaj stranko</a>
+<!--Anonimni uporabnik|Stranka|Prodajalec|Admin-->
+<a href="<?= BASE_URL . "seminarska_naloga/trgovina" ?>">Domov</a> |
+<a href="<?= BASE_URL . "seminarska_naloga/prijava" ?>">Prijava</a> |
+<!--Stranka|Prodajalec|Admin-->
+<a href="<?= BASE_URL . "seminarska_naloga/uredi_profil" ?>">Uredi profil</a> |
+<a href="<?= BASE_URL . "seminarska_naloga/registracija" ?>">Dodaj stranko</a> |
+<!--Prodajalec|Admin-->
+<a href="<?= BASE_URL . "seminarska_naloga/ne-obdelana_narocila" ?>">neobdelana naročila</a> |
+<a href="<?= BASE_URL . "seminarska_naloga/artikli" ?>">artikli</a> |
+<a href="<?= BASE_URL . "seminarska_naloga/artikli-add" ?>">dodaj artikel</a> |
+<a href="<?= BASE_URL . "seminarska_naloga/stranke" ?>">stranke</a> |
+<!--Admin-->
+<a href="<?= BASE_URL . "seminarska_naloga/prodajalci" ?>">prodajalci</a> 
+
 ]</p>
 
 <head>
