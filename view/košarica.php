@@ -17,9 +17,12 @@ $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_C
     <a href="<?= BASE_URL . "seminarska_naloga/trgovina" ?>">Domov</a> |
     <a href="<?= BASE_URL . "seminarska_naloga/prijava" ?>">Prijava</a> |
     <!--Stranka|Prodajalec|Admin-->
-    <a href="<?= BASE_URL . "seminarska_naloga/uredi_profil" ?>">Uredi profil</a> |
-    <a href="<?= BASE_URL . "seminarska_naloga/registracija" ?>">Dodaj stranko</a> |
+    <?php
+      if (isset($_SESSION["user"])) {?>
+        <a href="<?= BASE_URL . "seminarska_naloga/uredi_profil" ?>">Uredi profil</a> |
+    <?php } ?>
     <!--Prodajalec|Admin-->
+    <a href="<?= BASE_URL . "seminarska_naloga/registracija" ?>">Dodaj stranko</a> |
     <a href="<?= BASE_URL . "seminarska_naloga/ne-obdelana_narocila" ?>">neobdelana naročila</a> |
     <a href="<?= BASE_URL . "seminarska_naloga/artikli" ?>">artikli</a> |
     <a href="<?= BASE_URL . "seminarska_naloga/artikli-add" ?>">dodaj artikel</a> |

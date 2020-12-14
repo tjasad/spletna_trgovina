@@ -81,7 +81,15 @@ class seminarskaController
             //ce je empty se gre za urejanje trenutnega userja
             //poberi ga iz  seje
             //TODO
-            $user = UserDB::get($_GET["id"]);
+
+            if(isset($_GET["id"])){
+                $userId = $_GET["id"];
+            }else{
+                //trentuno prijavljeni user
+                $userId = $_SESSION["user"];
+            }
+            
+            $user = UserDB::get($userId);
         }
 
         echo ViewHelper::render("view/uporabniki-edit.php", ["user" => $user]);
