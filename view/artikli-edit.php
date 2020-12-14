@@ -23,10 +23,25 @@
                    value="<?= $articel["article_description"] ?>" required><br/>
 
             <label for="article_status"><b>Status artikla</b></label>
-            <select>
-                <option value="1">Aktiven</option>
-                <option value="0">Ne aktiven</option>
-            </select>
+            <?php
+            $aktiven = $articel["article_status"];
+            if ($aktiven ==1){
+            ?>
+                <select>
+                    <option value="1">Aktiven</option>
+                    <option value="0">Ne aktiven</option>
+                </select>
+            <?php
+            }
+            else{
+            ?>
+                    <select>
+                        <option value="0">Ne aktiven</option>
+                        <option value="1">Aktiven</option>                        
+                    </select>
+                <?php
+            }                
+            ?>
 
             <input type="submit" value="Posodobi" class="registerbtn"/>
         </div>

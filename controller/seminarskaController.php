@@ -228,12 +228,8 @@ class seminarskaController
             $articel = ArticelDB::get($_GET["id"]);
         }
         #var_dump($articel["article_status"]);
-        $tmp = $articel["article_status"];
-        if ($tmp == '0') {
-            echo ViewHelper::render("view/artikli-edit2.php", ["articel" => $articel]);
-        } else {
-            echo ViewHelper::render("view/artikli-edit.php", ["articel" => $articel]);
-        }
+        $tmp = $articel["article_status"];        
+        echo ViewHelper::render("view/artikli-edit.php", ["articel" => $articel]);
     }
 
     public static function order_edit($order = [])
