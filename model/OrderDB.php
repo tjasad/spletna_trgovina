@@ -92,7 +92,7 @@ class OrderDB
     {
         $db = DBInit::getInstance();
 
-        $statement = $db->prepare("UPDATE Naročio SET costumer_id = :costumer_id, total_price = :total_price,
+        $statement = $db->prepare("UPDATE Naročilo SET costumer_id = :costumer_id, total_price = :total_price,
         order_status = :order_status WHERE order_id = :order_id");
         $statement->bindParam(":order_id", $order_id);
         $statement->bindParam(":costumer_id", $costumer_id);

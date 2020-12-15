@@ -18,6 +18,7 @@
       if (isset($_SESSION["role"]) && ($_SESSION["role"] == 'prodajalec' || $_SESSION["role"] == 'administrator')) {?>
     <a href="<?= BASE_URL . "seminarska_naloga/registracija" ?>">Dodaj stranko</a> |
     <a href="<?= BASE_URL . "seminarska_naloga/ne-obdelana_narocila" ?>">neobdelana naročila</a> |
+    <a href="<?= BASE_URL . "seminarska_naloga/potrjena_narocila" ?>">potrjena naročila</a> |
     <a href="<?= BASE_URL . "seminarska_naloga/artikli" ?>">artikli</a> |
     <a href="<?= BASE_URL . "seminarska_naloga/artikli-add" ?>">dodaj artikel</a> |
     <a href="<?= BASE_URL . "seminarska_naloga/stranke" ?>">stranke</a> |

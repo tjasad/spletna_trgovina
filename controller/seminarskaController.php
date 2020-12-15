@@ -215,7 +215,7 @@ class seminarskaController
             self::order_edit($_POST);
         }
     }
-
+  
     public static function prikazKolicine($order = [])
     {
 
@@ -275,7 +275,7 @@ class seminarskaController
         }
         echo ViewHelper::render("view/narocila_edit.php", ["articel" => $order]);
     }
-
+  
     public static function prikaz_detajlov($order = []){ # za narocila -> stranka
         if (empty($order)) {
             $order = OrderDB::get($_GET["id"]);
@@ -322,6 +322,13 @@ class seminarskaController
     {
         echo ViewHelper::render("view/ne-obdelana_narocila.php", [
             "orders" => OrderDB::getOrdersByStatus(2)
+        ]);
+    }
+
+    public static function getPotrjenaNarocila()
+    {
+        echo ViewHelper::render("view/ne-obdelana_narocila.php", [
+            "orders" => OrderDB::getOrdersByStatus(1)
         ]);
     }
 

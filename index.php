@@ -93,11 +93,14 @@ $urls = [
             seminarskaController::order_edit();
         }
     },
-    "seminarska_naloga/vsa_narocila" => function () {
+    "seminarska_naloga/potrjena_narocila" => function () {
+        seminarskaController::getPotrjenaNarocila();
+    },
+    "seminarska_naloga/vsa_narocila" => function () {   #  za stranko
         $test = (int)$_SESSION["user"]; 
         seminarskaController::getVsaNarocila($test);
     },
-    "seminarska_naloga/podrobnosti_vsa_narocila" => function () {
+    "seminarska_naloga/podrobnosti_vsa_narocila" => function () {  #  za stranko
         seminarskaController::prikaz_detajlov();
     },
     #"seminarska_naloga/izbrisi_narocilo" => function () {
