@@ -233,6 +233,23 @@ class seminarskaController
         }
     }
 
+    public static function prikazKolicine2($order = [])
+    {
+
+        $validDelete = isset($_POST["id"]) && !empty($_POST["id"]);
+
+        if ($validDelete) {
+            $order = KolicinaDB::getAll($_POST["id"]);
+            echo ViewHelper::render("view/kolicina-prikaz.php", ["articel" => $order]);
+        } else {
+            if (isset($_POST["id"])) {
+                $url = BASE_URL . "seminarska_naloga/podrobnosti_vsa_narocila?id=" . $_POST["id"];
+            } else {
+                $url = BASE_URL . "seminarska_naloga";
+            }
+        }
+    }
+
     public static function article_edit($articel = [])
     {
        
@@ -257,6 +274,14 @@ class seminarskaController
             #var_dump($order); exit();            
         }
         echo ViewHelper::render("view/narocila_edit.php", ["articel" => $order]);
+    }
+
+    public static function prikaz_detajlov($order = []){ # za narocila -> stranka
+        if (empty($order)) {
+            $order = OrderDB::get($_GET["id"]);
+            #var_dump($order); exit();            
+        }
+        echo ViewHelper::render("view/narocila-pogled.php", ["articel" => $order]);
     }
 
     #public static function deleteArticel() {
@@ -297,6 +322,12 @@ class seminarskaController
     {
         echo ViewHelper::render("view/ne-obdelana_narocila.php", [
             "orders" => OrderDB::getOrdersByStatus(2)
+        ]);
+    }
+
+    public static function getVsaNarocila($id){
+        echo ViewHelper::render("view/vsa_narocila.php", [
+            "orders" => OrderDB::narocila_stranke($id)
         ]);
     }
 

@@ -7,7 +7,12 @@
       if (isset($_SESSION["user"])) {?>
         <a href="<?= BASE_URL . "seminarska_naloga/uredi_profil" ?>">Uredi profil</a> |
         <a href="<?= BASE_URL . "seminarska_naloga/odjava" ?>">Odjava</a> |
-    <?php } ?>
+        <?php
+        if (isset($_SESSION["role"]) && ($_SESSION["role"] == 'stranka')){
+        ?>
+          <a href="<?= BASE_URL . "seminarska_naloga/vsa_narocila" ?>">Pretekla naročila</a> |
+        <?php }
+    } ?>
     <!--Prodajalec|Admin-->
     <?php
       if (isset($_SESSION["role"]) && ($_SESSION["role"] == 'prodajalec' || $_SESSION["role"] == 'administrator')) {?>

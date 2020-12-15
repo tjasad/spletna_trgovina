@@ -15,6 +15,15 @@ class OrderDB
         return $statement->fetchAll();
     }
 
+    public static function narocila_stranke($id_stranke){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("SELECT order_id, costumer_id, total_price , order_status FROM Naročilo WHERE costumer_id = :id_stranke ");
+        $statement->bindParam(":id_stranke", $id_stranke, PDO::PARAM_INT);
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
     public static function getOrdersByStatus($status)
     {
         $db = DBInit::getInstance();

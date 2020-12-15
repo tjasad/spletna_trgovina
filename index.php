@@ -93,11 +93,21 @@ $urls = [
             seminarskaController::order_edit();
         }
     },
+    "seminarska_naloga/vsa_narocila" => function () {
+        $test = (int)$_SESSION["user"]; 
+        seminarskaController::getVsaNarocila($test);
+    },
+    "seminarska_naloga/podrobnosti_vsa_narocila" => function () {
+        seminarskaController::prikaz_detajlov();
+    },
     #"seminarska_naloga/izbrisi_narocilo" => function () {
     #    seminarskaController::deleteOrder();
     #},
     "seminarska_naloga/uredi_kolicino" => function () {
         seminarskaController::prikazKolicine();
+    },
+    "seminarska_naloga/prikazi_kolicino_uporabnik" => function () {
+        seminarskaController::prikazKolicine2();
     },
     "seminarska_naloga/trgovina" => function () {
         $url = filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_SPECIAL_CHARS);
