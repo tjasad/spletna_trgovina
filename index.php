@@ -12,8 +12,6 @@ define("CSS_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/css/");
 $path = isset($_SERVER["PATH_INFO"]) ? trim($_SERVER["PATH_INFO"], "/") : "";
 
 
-# *** globalne spremenljivke za določanje uniq ID-ja ***
-static $id_narocila = 22;
 
 // ROUTER: defines mapping between URLS and controllers
 $urls = [
@@ -224,8 +222,8 @@ $urls = [
                     }
                     #var_dump($cena);       
                     #  i) dodam naročilo v bazo OrderDB -> zaenkrat vsi costumer_id == 1 TODO **** to je potrebno popraviti ****
-                    
-                    seminarskaController::dodajNarocilo(1, $cena, 2);                    
+                    $test = (int)$_SESSION["user"]; 
+                    seminarskaController::dodajNarocilo($test, $cena, 2);                    
                     $zadnji = seminarskaController::get_last_order_id(); # var_dump($zadnji); exit();
 
                     #  ii) dodam v KolicinaDB
