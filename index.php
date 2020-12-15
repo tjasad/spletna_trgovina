@@ -41,7 +41,6 @@ $urls = [
                         ViewHelper::redirect(BASE_URL . "seminarska_naloga/trgovina");
 
                     } catch (Exception $exc) {
-                        //TODO tu se bo moglo neki drugeg anarest
                         ViewHelper::redirect(BASE_URL . "seminarska_naloga/prijava");
                     }
                     break;
@@ -52,6 +51,14 @@ $urls = [
 
         } else {
             seminarskaController::prijava();
+        }
+    },
+    "seminarska_naloga/odjava" => function () {
+        try {
+            session_destroy();
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga/prijava");
+        } catch (Exception $exc) {
+            die($exc->getMessage());
         }
     },
     "" => function () {

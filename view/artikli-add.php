@@ -4,6 +4,10 @@
     <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "registracijaPrijava.css" ?>">
 </head>
 <body>
+
+<!--Navigation bar-->
+<?php include 'navigation-bar.php';?>
+
 <div>
     <h1>Dodajanje artikla</h1>
     <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">

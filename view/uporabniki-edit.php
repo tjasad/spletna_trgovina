@@ -5,26 +5,9 @@
 </head>
 <body>
 
-<p>[
-    <!--Anonimni uporabnik|Stranka|Prodajalec|Admin-->
-    <a href="<?= BASE_URL . "seminarska_naloga/trgovina" ?>">Domov</a> |
-    <a href="<?= BASE_URL . "seminarska_naloga/prijava" ?>">Prijava</a> |
-    <!--Stranka|Prodajalec|Admin-->
-    <?php
-      if (isset($_SESSION["user"])) {?>
-        <a href="<?= BASE_URL . "seminarska_naloga/uredi_profil" ?>">Uredi profil</a> |
-    <?php } ?>
-    <!--Prodajalec|Admin-->
-    <a href="<?= BASE_URL . "seminarska_naloga/registracija" ?>">Dodaj stranko</a> |
-    <a href="<?= BASE_URL . "seminarska_naloga/ne-obdelana_narocila" ?>">neobdelana naročila</a> |
-    <a href="<?= BASE_URL . "seminarska_naloga/artikli" ?>">artikli</a> |
-    <a href="<?= BASE_URL . "seminarska_naloga/artikli-add" ?>">dodaj artikel</a> |
-    <a href="<?= BASE_URL . "seminarska_naloga/stranke" ?>">stranke</a> |
-    <!--Admin-->
-    <a href="<?= BASE_URL . "seminarska_naloga/prodajalci" ?>">prodajalci</a>
+<!--Navigation bar-->
+<?php include 'navigation-bar.php';?>
 
-    ]</p>
-    
 <div>
     <h1>Uredi profil</h1>
     <form action="<?= BASE_URL . "seminarska_naloga/uredi_profil" ?>" method="post">

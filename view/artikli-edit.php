@@ -4,6 +4,9 @@
     <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "registracijaPrijava.css" ?>">
 </head>
 <body>
+<!--Navigation bar-->
+<?php include 'navigation-bar.php';?>
+
 <div>
     <h1>Urejanje artikla</h1>
     <form action="<?= BASE_URL . "seminarska_naloga/artikli-edit" ?>" method="post">
