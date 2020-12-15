@@ -13,7 +13,7 @@ $path = isset($_SERVER["PATH_INFO"]) ? trim($_SERVER["PATH_INFO"], "/") : "";
 
 
 # *** globalne spremenljivke za določanje uniq ID-ja ***
-static $id_narocila = 1;
+static $id_narocila = 22;
 
 // ROUTER: defines mapping between URLS and controllers
 $urls = [
@@ -224,20 +224,19 @@ $urls = [
                     }
                     #var_dump($cena);       
                     #  i) dodam naročilo v bazo OrderDB -> zaenkrat vsi costumer_id == 1 TODO **** to je potrebno popraviti ****
-                    $aa = $GLOBALS['id_narocila'];
-                    $zadnji_id = seminarskaController::dodajNarocilo($aa, 1, $cena, 2);
+                    
+                    seminarskaController::dodajNarocilo(1, $cena, 2);                    
+                    $zadnji = seminarskaController::get_last_order_id(); # var_dump($zadnji); exit();
 
                     #  ii) dodam v KolicinaDB
                     foreach (ArticelDB::getAll() as $knjiga) {
                         if (isset($_SESSION["cart"][$knjiga['article_id']])) {
 
                             $tmp_kolicina = $_SESSION["cart"][$knjiga['article_id']];
-                            $tmp_artikel_id = (int)$knjiga['article_id'];
-                            $bb = $GLOBALS['id_narocila'];
-                            seminarskaController::dodajKolicino($bb, $tmp_artikel_id, $tmp_kolicina);
+                            $tmp_artikel_id = (int)$knjiga['article_id'];                            
+                            seminarskaController::dodajKolicino($zadnji, $tmp_artikel_id, $tmp_kolicina);
                         }
-                    }
-                    $GLOBALS['$id_narocila'] += 1;
+                    }                    
                     ViewHelper::redirect(BASE_URL . "seminarska_naloga");
                     break;
                 default:

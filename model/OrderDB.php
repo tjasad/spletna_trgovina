@@ -65,13 +65,13 @@ class OrderDB
 
     }
 
-    public static function insert($order_id, $costumer_id, $total_price, $order_status)
+    public static function insert($costumer_id, $total_price, $order_status)
     {
         $db = DBInit::getInstance();
 
-        $statement = $db->prepare("INSERT INTO Naročilo (order_id, costumer_id, total_price, order_status)
-            VALUES (:order_id, :costumer_id, :total_price, :order_status)");
-        $statement->bindParam(":order_id", $order_id);
+        $statement = $db->prepare("INSERT INTO Naročilo (costumer_id, total_price, order_status)
+            VALUES (:costumer_id, :total_price, :order_status)");
+        #$statement->bindParam(":order_id", $order_id);
         $statement->bindParam(":costumer_id", $costumer_id);
         $statement->bindParam(":total_price", $total_price);
         $statement->bindParam(":order_status", $order_status);
@@ -99,6 +99,15 @@ class OrderDB
         $statement = $db->prepare("DELETE FROM Naročilo WHERE order_id = :id");
         $statement->bindParam(":id", $id, PDO::PARAM_INT);
         $statement->execute();
+    }
+    
+    public static function latest_id(){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("SELECT order_id FROM Naročilo ORDER BY order_id DESC LIMIT 1");
+        $statement->execute();
+        return $statement->fetchAll();
+    
     }
 
 

@@ -30,16 +30,16 @@
             $aktiven = $articel["article_status"];
             if ($aktiven ==1){
             ?>
-                <select>
-                    <option value="1">Aktiven</option>
-                    <option value="0">Ne aktiven</option>
-                </select>
+                 <select name="article_status">
+                        <option value="1" selected="selected">Aktiven</option>
+                        <option value="0">Ne aktiven</option>                        
+                    </select>
             <?php
             }
             else{
             ?>
-                    <select>
-                        <option value="0">Ne aktiven</option>
+                    <select name="article_status">
+                        <option value="0" selected="selected">Ne aktiven</option>
                         <option value="1">Aktiven</option>                        
                     </select>
                 <?php
@@ -68,5 +68,3 @@
 </div>
 </body>
 </html>
-
-

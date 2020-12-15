@@ -13,8 +13,8 @@
     <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
         <div>
             <input type="hidden" name="do" value="add"/>
-            <label for="article_id"><b>Id artikla</b></label>
-            <input type="text" placeholder="Vnesite id artikla" name="article_id" id="article_id" required><br/>
+            <!--<label for="article_id"><b>Id artikla</b></label>
+            <input type="text" placeholder="Vnesite id artikla" name="article_id" id="article_id" required><br/> -->
             <label for="article_name"><b>Naziv artikla</b></label>
             <input type="text" placeholder="Vnesite naziv artikla" name="article_name" id="article_name" required><br/>
             <label for="article_price"><b>Cena artikla</b></label>

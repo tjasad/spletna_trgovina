@@ -19,7 +19,7 @@ drop table if exists Uporabnik;
 /*==============================================================*/
 create table Artikel
 (
-   article_id           int not null,
+   article_id           int NOT NULL AUTO_INCREMENT,
    article_name         text not null,
    article_price        float not null,
    article_description  text not null,
@@ -44,7 +44,7 @@ create table Kolicina
 /*==============================================================*/
 create table Naročilo
 (
-   order_id             int not null,
+   order_id             int NOT NULL AUTO_INCREMENT,
    costumer_id          int not null,
    total_price          float not null,
    order_status         int not null,
@@ -80,12 +80,12 @@ alter table Kolicina add constraint FK_r3 foreign key (article_id)
 alter table Naročilo add constraint FK_r1 foreign key (costumer_id)
       references Uporabnik (costumer_id) on delete restrict on update restrict;
       
-insert into Artikel (article_id, article_name, article_price, article_description,  article_status) values
-(1, "Krajnska klobasa", 3.45, "Dimljena klobasa", TRUE),
-(2, "Kekec pašteta", 1.34, "Pašteta, ki ni iz Kekca", TRUE),
-(3, "Pisalo modro", 0.78, "Pisalo za pisanje - modro", FALSE),
-(4, "Žemlja bela", 0.25, "Bela žemlja, velika", FALSE),
-(5, "Računalnik", 794.91, "Računalnik - PC, HP", TRUE);
+insert into Artikel (article_name, article_price, article_description,  article_status) values
+("Krajnska klobasa", 3.45, "Dimljena klobasa", TRUE),
+("Kekec pašteta", 1.34, "Pašteta, ki ni iz Kekca", TRUE),
+("Pisalo modro", 0.78, "Pisalo za pisanje - modro", FALSE),
+("Žemlja bela", 0.25, "Bela žemlja, velika", FALSE),
+("Računalnik", 794.91, "Računalnik - PC, HP", TRUE);
 
 INSERT INTO `Uporabnik` (costumer_id, name, surname, street, house_number,post,post_number,email,password,role) VALUES
 

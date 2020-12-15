@@ -150,15 +150,15 @@ class seminarskaController
     # }
     public static function dodaj_artikel()
     {
-        $validData = isset($_POST["article_id"]) && !empty($_POST["article_id"]) &&
+        $validData = #isset($_POST["article_id"]) && !empty($_POST["article_id"]) &&
             isset($_POST["article_name"]) && !empty($_POST["article_name"]) &&
             isset($_POST["article_price"]) && !empty($_POST["article_price"]) &&
             isset($_POST["article_description"]) && !empty($_POST["article_description"]) &&
             isset($_POST["article_status"]) && !empty($_POST["article_status"]);
 
         if ($validData) {
-            var_dump($_POST);
-            ArticelDB::insert($_POST["article_id"], $_POST["article_name"], $_POST["article_price"], $_POST["article_description"], $_POST["article_status"]);
+            #var_dump($_POST);
+            ArticelDB::insert($_POST["article_name"], $_POST["article_price"], $_POST["article_description"], $_POST["article_status"]);
             ViewHelper::redirect(BASE_URL . "seminarska_naloga");
         } else {
             self::insertFormArticles($_POST);
@@ -167,7 +167,7 @@ class seminarskaController
 
     public static function insertFormArticles($values = [
         #vztavljanje artikla
-        "article_id" => "",
+        #"article_id" => "",
         "article_name" => "",
         "article_price" => "",
         "article_description" => "",
@@ -180,14 +180,16 @@ class seminarskaController
 
     public static function editArticle()
     {
+        
+        #var_dump($_POST);
         $validData = isset($_POST["article_id"]) && !empty($_POST["article_id"]) &&
             isset($_POST["article_name"]) && !empty($_POST["article_name"]) &&
             isset($_POST["article_price"]) && !empty($_POST["article_price"]) &&
             isset($_POST["article_description"]) && !empty($_POST["article_description"]) &&
-            isset($_POST["article_status"]) && !empty($_POST["article_status"]);
-
+            isset($_POST["article_status"]);
+       
         if ($validData) {
-
+            #print("SQL urejanje");
             ArticelDB::update($_POST["article_id"], $_POST["article_name"], $_POST["article_price"], $_POST["article_description"], $_POST["article_status"]);
             ViewHelper::redirect(BASE_URL . "seminarska_naloga");
             //ViewHelper::redirect(BASE_URL . "articel?id=" . $_POST["id"]);
@@ -198,6 +200,7 @@ class seminarskaController
 
     public static function editNarocila()
     {
+        
         $validData = isset($_POST["order_id"]) && !empty($_POST["order_id"]) &&
             isset($_POST["costumer_id"]) && !empty($_POST["costumer_id"]) &&
             isset($_POST["total_price"]) && !empty($_POST["total_price"]) &&
@@ -232,12 +235,19 @@ class seminarskaController
 
     public static function article_edit($articel = [])
     {
+       
         if (empty($articel)) {
             $articel = ArticelDB::get($_GET["id"]);
         }
-        #var_dump($articel["article_status"]);
-        $tmp = $articel["article_status"];        
-        echo ViewHelper::render("view/artikli-edit.php", ["articel" => $articel]);
+        
+        #$tmp = $articel["article_status"];	               
+        #if ($tmp == '0') {	        
+        #    echo ViewHelper::render("view/artikli-edit.php", ["articel" => $articel]);           
+        #} else {	
+            
+        #    echo ViewHelper::render("view/artikli-edit2.php", ["articel" => $articel]);	           
+        #}
+        echo ViewHelper::render("view/artikli_edit_specific.php", ["articel" => $articel]); 
     }
 
     public static function order_edit($order = [])
@@ -291,9 +301,9 @@ class seminarskaController
     }
 
     # dodajanje naročila
-    public static function dodajNarocilo($id1, $id2, $price, $status)
+    public static function dodajNarocilo($id2, $price, $status)
     {
-        OrderDB::insert($id1, $id2, $price, $status);
+        OrderDB::insert($id2, $price, $status);
 
     }
 
@@ -302,6 +312,14 @@ class seminarskaController
     {
         #var_dump($id1);
         KolicinaDB::insert($id2, $id3, $cena);
+    }
+
+    public static function get_last_order_id(){
+        $a = OrderDB::latest_id();
+        #var_dump($a);
+        $b = $a[0];
+        #var_dump($b['order_id']);
+        return (int) $b['order_id'];
     }
 
 }

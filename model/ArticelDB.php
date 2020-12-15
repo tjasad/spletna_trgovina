@@ -47,13 +47,13 @@ class ArticelDB
         }
     }
 
-    public static function insert($article_id, $article_name, $article_price, $article_description, $article_status)
+    public static function insert($article_name, $article_price, $article_description, $article_status)
     {
         $db = DBInit::getInstance();
 
-        $statement = $db->prepare("INSERT INTO Artikel (article_id, article_name, article_price, article_description, article_status)
-            VALUES (:article_id, :article_name, :article_price, :article_description, :article_status)");
-        $statement->bindParam(":article_id", $article_id);
+        $statement = $db->prepare("INSERT INTO Artikel (article_name, article_price, article_description, article_status)
+            VALUES (:article_name, :article_price, :article_description, :article_status)");
+        #$statement->bindParam(":article_id", $article_id);
         $statement->bindParam(":article_name", $article_name);
         $statement->bindParam(":article_price", $article_price);
         $statement->bindParam(":article_description", $article_description);
