@@ -1,0 +1,9 @@
+i) namestitev certifikatov v strežnik Apache:
+    a) sudo mkdir /etc/apache2/ssl
+    b) cd /home/ep/NetBeansProjects/seminarska_naloga/certs
+    c) sudo cp Administrator.p12 epca.xdb  Elektronsko_Poslovanje_CA.crt  localhost.pem  Prodajalec.p12 /etc/apache2/ssl
+    d) sudo a2enmod ssl
+    e) sudo a2enmod rewrite
+    f) sudo a2ensite default-ssl.conf
+    e) sudo vim /etc/apache2/sites-avaible/default-ssl.conf
+
