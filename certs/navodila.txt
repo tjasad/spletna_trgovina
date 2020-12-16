@@ -5,5 +5,9 @@ i) namestitev certifikatov v strežnik Apache:
     d) sudo a2enmod ssl
     e) sudo a2enmod rewrite
     f) sudo a2ensite default-ssl.conf
-    e) sudo vim /etc/apache2/sites-avaible/default-ssl.conf
+    g) sudo vim /etc/apache2/sites-avaible/default-ssl.conf
+     - pod ukaz "SSLProtocol -all +TLSv1.2" se vneseta ti dve vrstici:
+       SSLCertificateFile     /home/ep/NetBeansProjects/seminarska_naloga/certs/localhost.pem
+       SSLCACertificateFile   /home/ep/NetBeansProjects/seminarska_naloga/certs/Elektronsko_Poslovanje_CA.crt
+    h) sudo service apache2 restart
 

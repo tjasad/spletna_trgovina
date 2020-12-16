@@ -68,7 +68,7 @@ $urls = [
     "" => function () {
         ViewHelper::redirect(BASE_URL . "seminarska_naloga");
     },
-    "seminarska_naloga/artikli" => function () {
+    "seminarska_naloga/artikli" => function () {        
         seminarskaController::getAllArticles();
     },
     "seminarska_naloga/artikli-edit" => function () {
