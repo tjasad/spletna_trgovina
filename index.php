@@ -31,12 +31,18 @@ $urls = [
             switch ($_POST["do"]) {
                 case "log_in_user":
                     try {
-                        $user = UserDB::getUserByEmailAndPasswod($_POST["email"], $_POST["password"]);
-                        var_dump($user['name']);
+                        //to spremen na getUserByEmail
+                        $user = UserDB::getUserByEmail($_POST["email"]);
+                    
+                        if(password_verify( $_POST["password"],  $user["password"])){
 
-                        $_SESSION["user"] = $user['costumer_id'];
-                        $_SESSION["role"] = $user['role'];
-                        ViewHelper::redirect(BASE_URL . "seminarska_naloga/trgovina");
+                            $_SESSION["user"] = $user['costumer_id'];
+                            $_SESSION["role"] = $user['role'];
+                            ViewHelper::redirect(BASE_URL . "seminarska_naloga/trgovina");
+                        }else{
+                            ViewHelper::redirect(BASE_URL . "seminarska_naloga/prijava");
+                        }
+
 
                     } catch (Exception $exc) {
                         ViewHelper::redirect(BASE_URL . "seminarska_naloga/prijava");
@@ -288,7 +294,10 @@ $urls = [
     "seminarska_naloga/vsi_linki" => function () {
 
         echo ViewHelper::render("view/zlistani_gumbi.php", []);
-    }
+    },
+    "seminarska_naloga/dodajanjeUporabnikov" => function () {
+        seminarskaController::dodajanjeMockUporabnikov();
+    },
 
 
 ];

@@ -9,6 +9,15 @@ class seminarskaController
 {
 
     //OPERACIJE UPORABNIKA
+    public static function dodajanjeMockUporabnikov(){
+        UserDB::insert('Stranka', 'Stranka', 'a',1,'Ljubljana',1000,'stranka@gmail.com',password_hash('stranka', PASSWORD_BCRYPT),'stranka',1);
+        UserDB::insert('Prodajalec', 'Prodajalec', 'a',1,'Ljubljana',1000,'prodajalec@gmail.com', password_hash('prodajalec', PASSWORD_BCRYPT),'prodajalec',1);
+        UserDB::insert('Administrator', 'Administrator', 'a',1,'Ljubljana',1000,'admin@gmail.com', password_hash('admin', PASSWORD_BCRYPT),'administrator',1);
+        UserDB::insert('Ivan', 'Bratko', 'Vecna pot',113,'Ljubljana',1000,'ivan@gmail.com',password_hash('lala', PASSWORD_BCRYPT),'administrator',0);
+        UserDB::insert('Mici', 'Luna', 'Vecna pot',115,'Ljubljana',1000,'mici@gmail.com',password_hash('1234', PASSWORD_BCRYPT),'prodajalec',0);
+        UserDB::insert('Jo', 'Kip', 'Vesela cesta',1,'Ljubljana',1000,'jo@gmail.com',password_hash('tato', PASSWORD_BCRYPT),'stranka',0);
+        ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+    }
 
     public static function registracija()
     {
@@ -24,7 +33,7 @@ class seminarskaController
 
         if ($validData) {
 
-            UserDB::insert($_POST["name"], $_POST["surname"], $_POST["street"], $_POST["house_number"], $_POST["post"], $_POST["post_number"], $_POST["email"], $_POST["password"], "stranka");
+            UserDB::insert($_POST["name"], $_POST["surname"], $_POST["street"], $_POST["house_number"], $_POST["post"], $_POST["post_number"], $_POST["email"],password_hash($_POST["password"], PASSWORD_BCRYPT), "stranka",TRUE);
             ViewHelper::redirect(BASE_URL . "seminarska_naloga");
         } else {
             self::showRegistracijaForm($_POST);
@@ -68,7 +77,7 @@ class seminarskaController
             isset($_POST["id"]) && !empty($_POST["id"]);
 
         if ($validData) {
-            UserDB::update($_POST["id"], $_POST["name"], $_POST["surname"], $_POST["street"], $_POST["house_number"], $_POST["post"], $_POST["post_number"], $_POST["email"], $_POST["password"], "stranka",$_POST["status"]);
+            UserDB::update($_POST["id"], $_POST["name"], $_POST["surname"], $_POST["street"], $_POST["house_number"], $_POST["post"], $_POST["post_number"], $_POST["email"], password_hash($_POST["password"], PASSWORD_BCRYPT), "stranka",$_POST["status"]);
             ViewHelper::redirect(BASE_URL . "seminarska_naloga");
             //ViewHelper::redirect(BASE_URL . "user?id=" . $_POST["id"]);
         } else {
