@@ -66,6 +66,7 @@ create table Uporabnik
    email                text not null,
    password             text not null,
    role                 text not null,
+   status               bool not null,
    primary key (costumer_id)
 );
 
@@ -87,12 +88,12 @@ insert into Artikel (article_name, article_price, article_description,  article_
 ("Žemlja bela", 0.25, "Bela žemlja, velika", FALSE),
 ("Računalnik", 794.91, "Računalnik - PC, HP", TRUE);
 
-INSERT INTO `Uporabnik` (costumer_id, name, surname, street, house_number,post,post_number,email,password,role) VALUES
+INSERT INTO `Uporabnik` (costumer_id, name, surname, street, house_number,post,post_number,email,password,role,status) VALUES
 
-(1, 'Ivan', 'Bratko', 'Vecna pot',113,'Ljubljana',1000,'ivan@gmail.com','alala','administrator'),
-(2, 'Mici', 'Luna', 'Vecna pot',115,'Ljubljana',1000,'mici@gmail.com','1234','prodajalec'),
-(3, 'Jo', 'Kip', 'Vesela cesta',1,'Ljubljana',1000,'jo@gmail.com','jooo','stranka'),
-(4, 'Stranka', 'Stranka', 'a',1,'Ljubljana',1000,'stranka@gmail.com','stranka','stranka'),
-(5, 'Prodajalec', 'Prodajalec', 'a',1,'Ljubljana',1000,'prodajalec@gmail.com','prodajalec','prodajalec'),
-(6, 'Administrator', 'Administrator', 'a',1,'Ljubljana',1000,'admin@gmail.com','admin','administrator');
+(1, 'Ivan', 'Bratko', 'Vecna pot',113,'Ljubljana',1000,'ivan@gmail.com','alala','administrator',FALSE),
+(2, 'Mici', 'Luna', 'Vecna pot',115,'Ljubljana',1000,'mici@gmail.com','1234','prodajalec',FALSE),
+(3, 'Jo', 'Kip', 'Vesela cesta',1,'Ljubljana',1000,'jo@gmail.com','jooo','stranka',FALSE),
+(4, 'Stranka', 'Stranka', 'a',1,'Ljubljana',1000,'stranka@gmail.com','stranka','stranka',TRUE),
+(5, 'Prodajalec', 'Prodajalec', 'a',1,'Ljubljana',1000,'prodajalec@gmail.com','prodajalec','prodajalec',TRUE),
+(6, 'Administrator', 'Administrator', 'a',1,'Ljubljana',1000,'admin@gmail.com','admin','administrator',TRUE);
 

@@ -64,10 +64,11 @@ class seminarskaController
             isset($_POST["post"]) && !empty($_POST["post"]) &&
             isset($_POST["post_number"]) && !empty($_POST["post_number"]) &&
             isset($_POST["email"]) && !empty($_POST["email"]) &&
-            isset($_POST["password"]) && !empty($_POST["password"]);
+            isset($_POST["password"]) && !empty($_POST["password"]) &&
+            isset($_POST["id"]) && !empty($_POST["id"]);
 
         if ($validData) {
-            UserDB::update($_POST["id"], $_POST["name"], $_POST["surname"], $_POST["street"], $_POST["house_number"], $_POST["post"], $_POST["post_number"], $_POST["email"], $_POST["password"], "stranka");
+            UserDB::update($_POST["id"], $_POST["name"], $_POST["surname"], $_POST["street"], $_POST["house_number"], $_POST["post"], $_POST["post_number"], $_POST["email"], $_POST["password"], "stranka",$_POST["status"]);
             ViewHelper::redirect(BASE_URL . "seminarska_naloga");
             //ViewHelper::redirect(BASE_URL . "user?id=" . $_POST["id"]);
         } else {
@@ -78,9 +79,6 @@ class seminarskaController
     public static function showEditUserForm($user = [])
     {
         if (empty($user)) {
-            //ce je empty se gre za urejanje trenutnega userja
-            //poberi ga iz  seje
-            //TODO
 
             if(isset($_GET["id"])){
                 $userId = $_GET["id"];

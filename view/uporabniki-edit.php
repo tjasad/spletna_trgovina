@@ -34,6 +34,33 @@
             <label for="geslo"><b>Geslo</b></label>
             <input type="password" placeholder="Vnesite geslo" name="password" id="geslo"
                    value="<?= $user["password"] ?>" required><br/>
+
+
+            <?php
+            //samo admin lahko spreminja status
+            if (isset($_SESSION["role"]) && ($_SESSION["role"] == 'administrator' || $_SESSION["role"] == 'prodajalec')) {?>       
+            <label for="status"><b>Status</b></label>
+            <?php
+            $aktiven = $user["status"];
+            if ($aktiven ==1){
+            ?>
+                 <select name="status">
+                        <option value="1" selected="selected">Aktiven</option>
+                        <option value="0">Ne aktiven</option>                        
+                    </select>
+            <?php
+            }
+            else{
+            ?>
+                    <select name="status">
+                        <option value="0" selected="selected">Ne aktiven</option>
+                        <option value="1">Aktiven</option>                        
+                    </select>
+                <?php
+            }
+            }else{?>
+                <input type="hidden" name="status" value="<?= $user["status"] ?>"/>
+            <?php } ?>
             <input type="submit" value="Posodobi" class="registerbtn"/>
         </div>
 

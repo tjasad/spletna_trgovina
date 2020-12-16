@@ -17,6 +17,9 @@
         <th>Pošta</th>
         <th>Poštna številka</th>
         <th>Epošta</th>
+        <th>Status</th>
+        <th>Uredi</th>
+        <th>Izbriši</th>
     </tr>
     <?php
 
@@ -30,7 +33,8 @@
         $post = $row["post"];
         $post_number = $row["post_number"];
         $email = $row["email"];
-        $id = $row["costumer_id"]
+        $id = $row["costumer_id"];
+        $status = $row["status"];
 
         # echo "<p><b>$date</b>. $text [<a href='$url'>Uredi</a>]";
         ?>
@@ -42,16 +46,21 @@
             <td><?= $post ?></td>
             <td><?= $post_number ?></td>
             <td><?= $email ?></td>
-            <!-- <td><?php
+            <td><?php
             if ($status == true) {
                 echo "aktiven";
             } else {
                 echo "ne-aktiven";
             }
             ?>
-          </td>-->
-
             </td>
+            <td>
+                <form action="<?= BASE_URL . "seminarska_naloga/uredi_profil" ?>" method="get">
+                    <input type="hidden" name="id" value="<?= $id ?>"/>
+                    <input type="submit" value="Uredi stranko" class="registerbtn">
+                </form>
+            </td>
+            
             <td>
                 <form action="<?= BASE_URL . "seminarska_naloga/zbrisi_profil" ?>" method="post">
                     <input type="hidden" name="id" value="<?= $id ?>"/>

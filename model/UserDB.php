@@ -9,7 +9,7 @@ class UserDB
     {
         $db = DBInit::getInstance();
 
-        $statement = $db->prepare("SELECT name, surname, street, house_number, post, post_number, email, role FROM Uporabnik");
+        $statement = $db->prepare("SELECT name, surname, street, house_number, post, post_number, email, role, status FROM Uporabnik");
         $statement->execute();
 
         return $statement->fetchAll();
@@ -67,8 +67,8 @@ class UserDB
     {
         $db = DBInit::getInstance();
 
-        $statement = $db->prepare("INSERT INTO Uporabnik (name, surname, street, house_number,post,post_number,email,password,role)
-            VALUES (:name, :surname, :street, :house_number, :post, :post_number, :email, :password, :role)");
+        $statement = $db->prepare("INSERT INTO Uporabnik (name, surname, street, house_number,post,post_number,email,password,role,status)
+            VALUES (:name, :surname, :street, :house_number, :post, :post_number, :email, :password, :role, :status)");
         $statement->bindParam(":name", $name);
         $statement->bindParam(":surname", $surname);
         $statement->bindParam(":street", $street);
@@ -78,15 +78,16 @@ class UserDB
         $statement->bindParam(":email", $email);
         $statement->bindParam(":password", $password);
         $statement->bindParam(":role", $role);
+        $statement->bindParam(":status", TRUE);
         $statement->execute();
     }
 
-    public static function update($costumer_id, $name, $surname, $street, $house_number, $post, $post_number, $email, $password, $role)
+    public static function update($costumer_id, $name, $surname, $street, $house_number, $post, $post_number, $email, $password, $role, $status)
     {
         $db = DBInit::getInstance();
 
         $statement = $db->prepare("UPDATE Uporabnik SET name = :name, surname = :surname, street = :street,
-        house_number = :house_number, post = :post, post_number = :post_number, email = :email, password = :password, role = :role WHERE costumer_id = :costumer_id");
+        house_number = :house_number, post = :post, post_number = :post_number, email = :email, password = :password, role = :role, status = :status WHERE costumer_id = :costumer_id");
         $statement->bindParam(":costumer_id", $costumer_id);
         $statement->bindParam(":name", $name);
         $statement->bindParam(":surname", $surname);
@@ -97,6 +98,7 @@ class UserDB
         $statement->bindParam(":email", $email);
         $statement->bindParam(":password", $password);
         $statement->bindParam(":role", $role);
+        $statement->bindParam(":status", $status);
         $statement->execute();
     }
 
