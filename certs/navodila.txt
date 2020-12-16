@@ -8,6 +8,13 @@ i) namestitev certifikatov v strežnik Apache:
     g) sudo vim /etc/apache2/sites-avaible/default-ssl.conf
      - pod ukaz "SSLProtocol -all +TLSv1.2" se vneseta ti dve vrstici:
        SSLCertificateFile     /home/ep/NetBeansProjects/seminarska_naloga/certs/localhost.pem
-       SSLCACertificateFile   /home/ep/NetBeansProjects/seminarska_naloga/certs/Elektronsko_Poslovanje_CA.crt
+       SSLCACertificateFile   /home/ep/NetBeansProjects/seminarska_naloga/certs/ep-seminar.crt
+       SSLCARevocationFile     /home/ep/NetBeansProjects/seminarska_naloga/certs/brisanje.pem
     h) sudo service apache2 restart
+
+ii) Namestitev certifikatne agencije v brskalnik Firefox
+  prefernces -> Find in prefernces -> "cert" -> View Certificates.. ->(select Authorities) import -> ep-seminar.crt  -> select trust all -> ok
+
+iii) Namestitev osebnih certifikatov v brskalnik Firefox
+  prefernces -> Find in prefernces -> "cert" -> View Certificates.. ->(select Your Certificates) import  importa se za admina in prodajlca 
 
