@@ -3,9 +3,9 @@
     <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "tabela.css" ?>">
 </head>
 <body>
-<h1>Prodajalci</h1>
 <!--Navigation bar-->
 <?php include 'navigation-bar.php';?>
+<h1>Prodajalci</h1>
 
 <table style="width:100%">
     <tr>

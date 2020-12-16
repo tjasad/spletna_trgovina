@@ -4,8 +4,20 @@
     <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "registracijaPrijava.css" ?>">
 </head>
 <body>
+<?php
+      if (isset($_SESSION["role"]) && ($_SESSION["role"] == 'prodajalec' || $_SESSION["role"] == 'administrator')) {?>
+        <!--Navigation bar-->
+        <?php include 'navigation-bar.php';?>
+<?php } ?>
+
 <div>
-    <h1>Registracija</h1>
+<?php
+      if (isset($_SESSION["role"]) && ($_SESSION["role"] == 'prodajalec' || $_SESSION["role"] == 'administrator')) {?>
+        <h1>Dodaj stranko</h1>
+    <?php } else{?>
+        <h1>Registracija</h1>
+    <?php }?>
+
     <h3>Prosimo, izpolnite vsa spodnja okna!</h3>
     <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
         <div>
