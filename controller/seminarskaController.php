@@ -34,6 +34,7 @@ class seminarskaController
         if ($validData) {
 
             UserDB::insert($_POST["name"], $_POST["surname"], $_POST["street"], $_POST["house_number"], $_POST["post"], $_POST["post_number"], $_POST["email"],password_hash($_POST["password"], PASSWORD_BCRYPT), "stranka",TRUE);
+            self::send_mail($_POST["email"], "localhost.com");
             ViewHelper::redirect(BASE_URL . "seminarska_naloga");
         } else {
             self::showRegistracijaForm($_POST);
@@ -373,6 +374,25 @@ class seminarskaController
         $b = $a[0];
         #var_dump($b['order_id']);
         return (int) $b['order_id'];
+    }
+    public static function send_mail($to, $povezava){
+       require_once('PHPMailer/PHPMailerAutoload.php');
+
+       $mail = new PHPMailer();
+       $mail->isSMTP();
+       $mail->SMTPAuth = true;
+       $mail->SMTPSecure = 'ssl';
+       $mail->Host = 'smtp.gmail.com';
+       $mail->Port = '465';
+       $mail->isHTML();
+       $mail->Username = 'eposlovanje5@gmail.com';
+       $mail->Password = 'krneki123';
+       $mail->SetFrom('no@replay.com');
+       $mail->Subject = "Pozdravljen kupec!";
+       $mail->Body = "Za dokončanje registracije kliknite na naslednjo povezavo:" . $povezava;
+       $mail->AddAddress($to);
+
+       $mail->Send();
     }
 
 }
