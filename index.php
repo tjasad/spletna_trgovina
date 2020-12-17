@@ -238,7 +238,7 @@ $urls = [
         }
 
         echo ViewHelper::render("view/košarica.php", [
-            "articles" => ArticelDB::getAll()
+            "articles" => ArticelDB::getArticlesByStatus(1)
         ]);
 
 
