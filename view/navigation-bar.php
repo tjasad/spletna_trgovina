@@ -1,7 +1,8 @@
 <p>[
     <!--Anonimni uporabnik|Stranka|Prodajalec|Admin-->
     <a href="<?= BASE_URL . "seminarska_naloga/trgovina" ?>">Domov</a> |
-    <a href="<?= BASE_URL . "seminarska_naloga/prijava" ?>">Prijava</a> |
+    <a href="<?= BASE_URL . "seminarska_naloga/prijava" ?>">Prijava uslužbenci</a> |
+    <a href="<?= BASE_URL . "seminarska_naloga/prijava-stranka" ?>">Prijava uporabniki</a> |
     <!--Stranka|Prodajalec|Admin-->
     <?php
       if (isset($_SESSION["user"])) {?>

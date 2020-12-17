@@ -33,13 +33,29 @@ $urls = [
                     try {
                         //to spremen na getUserByEmail
                         $user = UserDB::getUserByEmail($_POST["email"]);
+                        # certifikat                       
+                        
+                        $client_cert = filter_input(INPUT_SERVER, "SSL_CLIENT_CERT");
+                        $cert_data = openssl_x509_parse($client_cert);
+                        #ime uporabnika by cert 
+                        $cert_name = $cert_data['subject']['CN'];
+                        $cert_mail = $cert_data['subject']['emailAddress'];
+                        #var_dump($cert_name); var_dump($user['name']); var_dump($cert_mail); var_dump($user['email']);
+                        if(($cert_name == $user['name']) && ($cert_mail == $user['email'])) {              
+                        
+                        
                     
-                        if(password_verify( $_POST["password"],  $user["password"])){
+                            if(password_verify( $_POST["password"],  $user["password"])){
 
-                            $_SESSION["user"] = $user['costumer_id'];
-                            $_SESSION["role"] = $user['role'];
-                            ViewHelper::redirect(BASE_URL . "seminarska_naloga/trgovina");
-                        }else{
+                                $_SESSION["user"] = $user['costumer_id'];
+                                $_SESSION["role"] = $user['role'];
+                                ViewHelper::redirect(BASE_URL . "seminarska_naloga/trgovina");
+                            }else{
+                                ViewHelper::redirect(BASE_URL . "seminarska_naloga/prijava");
+                            }
+                        }
+                        else{
+                            print("Napačni prijavni podatki!");
                             ViewHelper::redirect(BASE_URL . "seminarska_naloga/prijava");
                         }
 
@@ -57,10 +73,42 @@ $urls = [
             seminarskaController::prijava();
         }
     },
+    "seminarska_naloga/prijava-stranka" => function() {
+        $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_CHARS);
+        if ($method == "POST") {
+
+            switch ($_POST["do"]) {
+                case "log_in_user":
+                    try {
+                        //to spremen na getUserByEmail
+                        $user = UserDB::getUserByEmail($_POST["email"]);                       
+                        if(password_verify( $_POST["password"],  $user["password"])){
+
+                            $_SESSION["user"] = $user['costumer_id'];
+                            $_SESSION["role"] = $user['role'];
+                            ViewHelper::redirect(BASE_URL . "seminarska_naloga/trgovina");
+                        }else{
+                            ViewHelper::redirect(BASE_URL . "seminarska_naloga/prijava");
+                        }
+
+
+                    } catch (Exception $exc) {                        
+                        ViewHelper::redirect(BASE_URL . "seminarska_naloga/prijava");
+                    }
+                    break;
+                default:
+                    // default naj bo prazen
+                    break;
+            }
+
+        } else {
+            seminarskaController::prijava_stranka();
+        }
+    },
     "seminarska_naloga/odjava" => function () {
         try {
             session_destroy();
-            ViewHelper::redirect(BASE_URL . "seminarska_naloga/prijava");
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
         } catch (Exception $exc) {
             die($exc->getMessage());
         }

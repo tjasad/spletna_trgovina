@@ -18,3 +18,16 @@ ii) Namestitev certifikatne agencije v brskalnik Firefox
 iii) Namestitev osebnih certifikatov v brskalnik Firefox
   prefernces -> Find in prefernces -> "cert" -> View Certificates.. ->(select Your Certificates) import  importa se za admina in prodajlca 
 
+ZA KONČNO DELOVANJE CERTIFIKATOV:
+- v datoteku 000-default.conf in default-ssl.conf (cel naslov je "/etc/apache2/sites-available/000-default.conf") dodaš na konec čisto pred "</VirtualHost>"
+naslednje vrstice:
+<Location "/netbeans/seminarska_naloga/index.php/seminarska_naloga/prijava">
+            SSLVerifyClient require
+            SSLVerifyDepth 1
+            SSLOptions +ExportCertData
+</Location>
+potem restartas apache strežnik: sudo service apache2 restart
+
+It should work, ko se prijaviš kot uslužbenec. Ker se na firefoxu shranjujejo certifikati je treba pred vsako prijavo naredit ctrl+shift+delete
+(Time range to delete: Everithing) pa selectan more bit pri Data -> Site preferences.
+

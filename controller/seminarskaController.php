@@ -63,6 +63,14 @@ class seminarskaController
         echo ViewHelper::render("view/prijava.php", $values);
     }
 
+    public static function prijava_stranka($values = [
+        "email" => "",
+        "password" => "",
+    ])
+    {
+        echo ViewHelper::render("view/prijava-stranka.php", $values);
+    }
+
     public static function editUser()
     {
 
