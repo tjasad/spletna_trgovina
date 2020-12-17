@@ -118,7 +118,7 @@ $urls = [
     "seminarska_naloga/prikazi_kolicino_uporabnik" => function () {
         seminarskaController::prikazKolicine2();
     },
-    "seminarska_naloga/trgovina" => function () {
+    "seminarska_naloga/trgovina" => function () {        
         $url = filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_SPECIAL_CHARS);
         $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_CHARS);
         if ($method == "POST") {
@@ -241,7 +241,10 @@ $urls = [
                     }
                     #var_dump($cena);       
                     #  i) dodam naročilo v bazo OrderDB -> zaenkrat vsi costumer_id == 1 TODO **** to je potrebno popraviti ****
-                    $test = (int)$_SESSION["user"]; 
+                    $test = -1;
+                    if(isset($_SESSION["user"])){
+                        $test = (int)$_SESSION["user"]; 
+                    }
                     seminarskaController::dodajNarocilo($test, $cena, 2);                    
                     $zadnji = seminarskaController::get_last_order_id(); # var_dump($zadnji); exit();
 

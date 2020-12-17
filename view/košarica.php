@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-if (!isset($_SERVER["HTTPS"])){
+if ((!isset($_SERVER["HTTPS"])) && (isset($_SESSION["role"]))){
     $url = "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
     header("Location: " . $url);
 }
