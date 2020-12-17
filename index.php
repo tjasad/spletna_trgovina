@@ -4,6 +4,7 @@
 session_start();
 
 require_once("controller/seminarskaController.php");
+require_once("controller/ArticlesRESTController.php");
 require_once("model/ArticelDB.php");
 
 define("BASE_URL", $_SERVER["SCRIPT_NAME"] . "/");
@@ -33,18 +34,18 @@ $urls = [
                     try {
                         //to spremen na getUserByEmail
                         $user = UserDB::getUserByEmail($_POST["email"]);
-                        # certifikat                       
-                        
+                        # certifikat
+
                         $client_cert = filter_input(INPUT_SERVER, "SSL_CLIENT_CERT");
                         $cert_data = openssl_x509_parse($client_cert);
-                        #ime uporabnika by cert 
+                        #ime uporabnika by cert
                         $cert_name = $cert_data['subject']['CN'];
                         $cert_mail = $cert_data['subject']['emailAddress'];
                         #var_dump($cert_name); var_dump($user['name']); var_dump($cert_mail); var_dump($user['email']);
-                        if(($cert_name == $user['name']) && ($cert_mail == $user['email'])) {              
-                        
-                        
-                    
+                        if(($cert_name == $user['name']) && ($cert_mail == $user['email'])) {
+
+
+
                             if(password_verify( $_POST["password"],  $user["password"])){
 
                                 $_SESSION["user"] = $user['costumer_id'];
@@ -81,7 +82,7 @@ $urls = [
                 case "log_in_user":
                     try {
                         //to spremen na getUserByEmail
-                        $user = UserDB::getUserByEmail($_POST["email"]);                       
+                        $user = UserDB::getUserByEmail($_POST["email"]);
                         if(password_verify( $_POST["password"],  $user["password"])){
 
                             $_SESSION["user"] = $user['costumer_id'];
@@ -92,7 +93,7 @@ $urls = [
                         }
 
 
-                    } catch (Exception $exc) {                        
+                    } catch (Exception $exc) {
                         ViewHelper::redirect(BASE_URL . "seminarska_naloga/prijava");
                     }
                     break;
@@ -116,7 +117,7 @@ $urls = [
     "" => function () {
         ViewHelper::redirect(BASE_URL . "seminarska_naloga");
     },
-    "seminarska_naloga/artikli" => function () {        
+    "seminarska_naloga/artikli" => function () {
         seminarskaController::getAllArticles();
     },
     "seminarska_naloga/artikli-edit" => function () {
@@ -134,7 +135,7 @@ $urls = [
         seminarskaController::insertFormArticles();
     },
     #"seminarska_naloga/zbrisi_artikel" => function () {
-    #    
+    #
     #    seminarskaController::deleteArticel();
     #  },
     "seminarska_naloga/ne-obdelana_narocila" => function () {
@@ -151,7 +152,7 @@ $urls = [
         seminarskaController::getPotrjenaNarocila();
     },
     "seminarska_naloga/vsa_narocila" => function () {   #  za stranko
-        $test = (int)$_SESSION["user"]; 
+        $test = (int)$_SESSION["user"];
         seminarskaController::getVsaNarocila($test);
     },
     "seminarska_naloga/podrobnosti_vsa_narocila" => function () {  #  za stranko
@@ -166,7 +167,7 @@ $urls = [
     "seminarska_naloga/prikazi_kolicino_uporabnik" => function () {
         seminarskaController::prikazKolicine2();
     },
-    "seminarska_naloga/trgovina" => function () {        
+    "seminarska_naloga/trgovina" => function () {
         $url = filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_SPECIAL_CHARS);
         $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_CHARS);
         if ($method == "POST") {
@@ -272,7 +273,7 @@ $urls = [
             switch ($post["do"]) {
 
                 case "save_order":
-                    #var_dump($GLOBALS['id_narocila']); 
+                    #var_dump($GLOBALS['id_narocila']);
                     #$GLOBALS['id_narocila']+=1;
                     #var_dump($GLOBALS['id_narocila']); exit(42);
                     $cena = 0;
@@ -287,13 +288,13 @@ $urls = [
                             #var_dump($tmp_kolicina, $tmp_artikel_id);
                         }
                     }
-                    #var_dump($cena);       
+                    #var_dump($cena);
                     #  i) dodam naročilo v bazo OrderDB -> zaenkrat vsi costumer_id == 1 TODO **** to je potrebno popraviti ****
                     $test = -1;
                     if(isset($_SESSION["user"])){
-                        $test = (int)$_SESSION["user"]; 
+                        $test = (int)$_SESSION["user"];
                     }
-                    seminarskaController::dodajNarocilo($test, $cena, 2);                    
+                    seminarskaController::dodajNarocilo($test, $cena, 2);
                     $zadnji = seminarskaController::get_last_order_id(); # var_dump($zadnji); exit();
 
                     #  ii) dodam v KolicinaDB
@@ -301,10 +302,10 @@ $urls = [
                         if (isset($_SESSION["cart"][$knjiga['article_id']])) {
 
                             $tmp_kolicina = $_SESSION["cart"][$knjiga['article_id']];
-                            $tmp_artikel_id = (int)$knjiga['article_id'];                            
+                            $tmp_artikel_id = (int)$knjiga['article_id'];
                             seminarskaController::dodajKolicino($zadnji, $tmp_artikel_id, $tmp_kolicina);
                         }
-                    }                    
+                    }
                     ViewHelper::redirect(BASE_URL . "seminarska_naloga");
                     break;
                 default:
@@ -348,8 +349,15 @@ $urls = [
     },
     "seminarska_naloga/dodajanjeUporabnikov" => function () {
         seminarskaController::dodajanjeMockUporabnikov();
-    },
-
+    },# REST API
+    "seminarska_naloga/api/artikli" => function () {
+        // podatki o specifičnem artiklu
+        if(isset($_GET["id"])){
+            ArticlesRESTController::get($_GET["id"]);
+        }else{
+            ArticlesRESTController::index();
+        }
+    }
 
 ];
 #var_dump($path);
@@ -364,4 +372,4 @@ try {
     ViewHelper::error404();
 } catch (Exception $e) {
     echo "An error occurred: <pre>$e</pre>";
-} 
+}
