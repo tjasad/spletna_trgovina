@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<?php
+if (!isset($_SERVER["HTTPS"])){
+    $url = "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+    header("Location: " . $url);
+}
+?>
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "registracijaPrijava.css" ?>">

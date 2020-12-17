@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <?php
+if (!isset($_SERVER["HTTPS"])){
+    $url = "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+    header("Location: " . $url);
+}
+?>
+<?php
 require_once("model/ArticelDB.php")
 ?>
 <h1>Vsi artikli izbranega naročila</h1>

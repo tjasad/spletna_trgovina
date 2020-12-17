@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <?php
+if (!isset($_SERVER["HTTPS"])){
+    $url = "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+    header("Location: " . $url);
+}
+?>
+<?php
 $url = filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_SPECIAL_CHARS);
 $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_CHARS);
 ?>
