@@ -32,10 +32,22 @@ class seminarskaController
             isset($_POST["password"]) && !empty($_POST["password"]);
 
         if ($validData) {
-
-            UserDB::insert($_POST["name"], $_POST["surname"], $_POST["street"], $_POST["house_number"], $_POST["post"], $_POST["post_number"], $_POST["email"],password_hash($_POST["password"], PASSWORD_BCRYPT), "stranka",TRUE);
-            self::send_mail($_POST["email"], "localhost.com");
-            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+            $sKey = '6LfreQsaAAAAAFV2X0Ove1Kukv20R6pBE9A01lBT';         
+            $token = $_POST["g-recaptcha-response"];
+            #$ip = $_SERVER["REMOTE_ADDR"];
+            $url_naslov = "https://www.google.com/recaptcha/api/siteverify?secret=".urldecode($sKey)."&response=".urldecode($token).'';#"&remoteip=".urldecode($ip);
+            $request = file_get_contents($url_naslov);
+            $response = json_decode($request);
+            #var_dump($response); exit();
+            if($response->success){
+                echo "Success Captcha Validation!";            
+                UserDB::insert($_POST["name"], $_POST["surname"], $_POST["street"], $_POST["house_number"], $_POST["post"], $_POST["post_number"], $_POST["email"],password_hash($_POST["password"], PASSWORD_BCRYPT), "stranka",TRUE);
+                self::send_mail($_POST["email"], "localhost.com");
+                ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+            }else{
+                echo "Captcha Validation Failed!";
+                self::showRegistracijaForm($_POST);
+            }
         } else {
             self::showRegistracijaForm($_POST);
         }

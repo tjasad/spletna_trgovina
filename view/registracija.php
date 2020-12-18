@@ -6,8 +6,9 @@ if (!isset($_SERVER["HTTPS"])){
 }
 ?>
 <html>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <head>
-    <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "registracijaPrijava.css" ?>">
+    <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "registracijaPrijava.css" ?>">    
 </head>
 <body>
 <?php
@@ -27,6 +28,7 @@ if (!isset($_SERVER["HTTPS"])){
     <h3>Prosimo, izpolnite vsa spodnja okna!</h3>
     <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
         <div>
+            <input type="hidden" id="g-token" name="g-token"/>
             <input type="hidden" name="do" value="add"/>
             <label for="ime"><b>Ime</b></label>
             <input type="text" placeholder="Vnesite ime" name="name" id="ime" value="<?= $name ?>" required><br/>
@@ -45,7 +47,10 @@ if (!isset($_SERVER["HTTPS"])){
                    value="<?= $email ?>"/><br/>
             <label for="geslo"><b>Geslo</b></label>
             <input type="password" placeholder="Vnesite izbrano geslo" name="password" id="geslo"
-                   value="<?= $password ?>" required><br/>
+                   value="<?= $password ?>" required><br/> 
+            <div class="g-recaptcha" data-sitekey="6LfreQsaAAAAADP7wkXXFCtkB0H_w6r8m_EYmhFm"></div>
+            <br/>
+           
             <!--<label for="geslo2"><b>Vnovično geslo</b></label>
             <input type="password" placeholder="Ponovno vnesite izbrano geslo" name="password_again" id = "geslo2" required><br/> -->
             <input type="submit" value="Registriraj se" class="registerbtn"/>
@@ -63,6 +68,18 @@ if (!isset($_SERVER["HTTPS"])){
 
 
 </div>
+<!--
+<script src="https://www.google.com/recaptcha/api.js?render=6LftWQsaAAAAAHQfGnH1QoGzg4MphhYlRWHHBNnP"></script>
+<script>    
+        grecaptcha.ready(function() {
+          grecaptcha.execute('6LftWQsaAAAAAHQfGnH1QoGzg4MphhYlRWHHBNnP', {action: 'submit'}).then(function(token) {
+              // Add your logic to submit to your backend server here.
+              document.getElementById("g-token").value = token;
+          });
+        });
+      
+</script>
+-->
 </body>
 </html>
 
