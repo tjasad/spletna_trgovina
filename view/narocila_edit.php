@@ -17,20 +17,20 @@ if (!isset($_SERVER["HTTPS"])){
             <input type="hidden" name="id" value="<?= $articel["order_id"] ?>"/>
             <label for="order_id"><b>Id naročila</b></label>
             <input type="text" readonly="readonly" placeholder="Vnesite id naročila" name="order_id" id="order_id"
-                   value="<?= $articel["order_id"] ?>" required><br/>
+                   value="<?= htmlspecialchars($articel["order_id"]) ?>" required><br/>
             <label for="article_name"><b>Id stranke</b></label>
             <input type="text" readonly="readonly" placeholder="Vnesite id stranke" name="costumer_id" id="costumer_id"
-                   value="<?= $articel["costumer_id"] ?>" required><br/>
+                   value="<?= htmlspecialchars($articel["costumer_id"]) ?>" required><br/>
             <label for="article_price"><b>Skupna cena</b></label>
             <input type="text" readonly="readonly" placeholder="Vnesite skupno ceno" name="total_price" id="total_price"
-                   value="<?= $articel["total_price"] ?>" required>
+                   value="<?= htmlspecialchars($articel["total_price"]) ?>" required>
            <!-- <label for="order_status"><b>Status naročila (-1 == stoniran, 0 == preklican, 1 == potrjen, 2 ==
                     oddano(neobdelano))</b></label>
             <input type="text" placeholder="Vnesite status naročila" name="order_status" id="order_status"
                    value="<?#= $articel["order_status"] ?>" required><br/> -->
             <label for="order_status"><b>Status naročila</b></label>
             <?php
-            $aktiven = $articel["order_status"];
+            $aktiven = htmlspecialchars($articel["order_status"]);
             if ($aktiven == 0){ #  preklicano
             ?>
                  <select name="order_status">

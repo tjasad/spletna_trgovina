@@ -38,14 +38,14 @@ $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_C
             foreach ($articles
 
             as $key2 => $row){
-            $id = $row["article_id"];
-            $name = $row["article_name"];
-            $price = $row["article_price"];
-            $description = $row["article_description"];
-            $status = $row["article_status"];
+            $id = htmlspecialchars($row["article_id"]);
+            $name = htmlspecialchars($row["article_name"]);
+            $price = htmlspecialchars($row["article_price"]);
+            $description = htmlspecialchars($row["article_description"]);
+            $status = htmlspecialchars($row["article_status"]);
 
 
-            if ($row['article_id'] == $key){
+            if (htmlspecialchars($row['article_id']) == $key){
             if ($check == -1) {
                 ?>
                 <tr>

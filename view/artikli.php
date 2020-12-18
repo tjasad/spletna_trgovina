@@ -41,11 +41,11 @@ foreach (scandir($directory) as $file) {
     # var_dump($articles); exit();
     foreach ($articles as $key => $row) {
         #$url = htmlspecialchars($_SERVER["PHP_SELF"]) . "?do=edit&id=" . $row["id"];
-        $id = $row["article_id"];
-        $name = $row["article_name"];
-        $price = $row["article_price"];
-        $description = $row["article_description"];
-        $status = $row["article_status"];
+        $id = htmlspecialchars($row["article_id"]);
+        $name = htmlspecialchars($row["article_name"]);
+        $price = htmlspecialchars($row["article_price"]);
+        $description = htmlspecialchars($row["article_description"]);
+        $status = htmlspecialchars($row["article_status"]);
 
         # echo "<p><b>$date</b>. $text [<a href='$url'>Uredi</a>]";
         ?>

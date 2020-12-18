@@ -31,12 +31,12 @@ require_once("model/ArticelDB.php")
     #var_dump($articel); #exit();
     foreach ($articel as $key => $row) {
         #$url = htmlspecialchars($_SERVER["PHP_SELF"]) . "?do=edit&id=" . $row["id"];
-        $id = $row["id_kolicina"];
-        $order_id = $row["order_id"];
-        $article_id = $row["article_id"];
-        $kolicina = $row["overal"];
+        $id = htmlspecialchars($row["id_kolicina"]);
+        $order_id = htmlspecialchars($row["order_id"]);
+        $article_id = htmlspecialchars($row["article_id"]);
+        $kolicina = htmlspecialchars($row["overal"]);
         $tmp_artikel = ArticelDB::get($article_id);
-        $articel_name = $tmp_artikel['article_name'];
+        $articel_name = htmlspecialchars($tmp_artikel['article_name']);
         # var_dump($tmp_artikel['article_name']); exit(42);
 
         # echo "<p><b>$date</b>. $text [<a href='$url'>Uredi</a>]";

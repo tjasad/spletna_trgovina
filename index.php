@@ -43,11 +43,8 @@ $urls = [
                         $cert_mail = $cert_data['subject']['emailAddress'];
                         #var_dump($cert_name); var_dump($user['name']); var_dump($cert_mail); var_dump($user['email']);
                         if(($cert_name == $user['name']) && ($cert_mail == $user['email'])) {
-
-
-
-                            if(password_verify( $_POST["password"],  $user["password"])){
-
+                           
+                            if(password_verify( $_POST["password"],  $user["password"])){                                
                                 $_SESSION["user"] = $user['costumer_id'];
                                 $_SESSION["role"] = $user['role'];
                                 ViewHelper::redirect(BASE_URL . "seminarska_naloga/trgovina");

@@ -26,11 +26,11 @@ if (!isset($_SERVER["HTTPS"])){
     # var_dump($orders);
     foreach ($orders as $key => $row) {
         #$url = htmlspecialchars($_SERVER["PHP_SELF"]) . "?do=edit&id=" . $row["id"];
-        $id = $row["order_id"];
+        $id = htmlspecialchars($row["order_id"]);
         #$articles = $row["articles"];
-        $t_price = $row["total_price"];
-        $c_id = $row["costumer_id"];
-        $status = $row["order_status"];
+        $t_price = htmlspecialchars($row["total_price"]);
+        $c_id = htmlspecialchars($row["costumer_id"]);
+        $status = htmlspecialchars($row["order_status"]);
 
         # echo "<p><b>$date</b>. $text [<a href='$url'>Uredi</a>]";
         ?>
