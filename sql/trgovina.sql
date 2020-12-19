@@ -71,6 +71,20 @@ create table Uporabnik
    primary key (costumer_id)
 );
 
+/*==============================================================*/
+/* Table: Ocene                                                 */
+/*==============================================================*/
+create table Ocene
+(
+   id_ocena          int NOT NULL AUTO_INCREMENT,
+   costumer_id       int not null,
+   article_id        int not null,
+   rating            int not null,
+   primary key (id_ocena)
+
+);
+
+
 alter table Uporabnik
   modify costumer_id int(11) not null AUTO_INCREMENT,AUTO_INCREMENT=5;
 alter table Kolicina add constraint FK_r2 foreign key (order_id)
@@ -81,6 +95,12 @@ alter table Kolicina add constraint FK_r3 foreign key (article_id)
 
 alter table Naročilo add constraint FK_r1 foreign key (costumer_id)
       references Uporabnik (costumer_id) on delete restrict on update restrict;
+
+alter table Ocene add constraint FK_r4 foreign key (costumer_id)
+      references Uporabnik (costumer_id) on delete restrict on update restrict;
+
+alter table Ocene add constraint FK_r5 foreign key (article_id)
+      references Artikel (article_id) on delete restrict on update restrict;
       
 insert into Artikel (article_name, article_price, article_description,  article_status) values
 ("Krajnska klobasa", 3.45, "Dimljena klobasa", TRUE),
