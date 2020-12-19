@@ -6,6 +6,7 @@ session_start();
 require_once("controller/seminarskaController.php");
 require_once("controller/ArticlesRESTController.php");
 require_once("model/ArticelDB.php");
+require_once("model/OceneDB.php");
 
 define("BASE_URL", $_SERVER["SCRIPT_NAME"] . "/");
 define("CSS_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/css/");
@@ -213,8 +214,7 @@ $urls = [
                     break;
                 case "purge_cart":
                     try {
-                        session_destroy();
-                        session_start();
+                        unset($_SESSION["cart"]);
                     } catch (Exception $exc) {
                         die($exc->getMessage());
                     }
@@ -361,6 +361,24 @@ $urls = [
 
         seminarskaController::getAllCustomers();
 
+    },
+    "seminarska_naloga/ocena" => function () {
+        $id=Null;
+        if(isset($_GET['id'])){
+            $id = htmlspecialchars($_GET['id']);
+        }       
+       
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            
+            $id_artikel = $_POST['id_artikel'];
+            $ocena = $_POST['ocena_artikla'];
+            $user_id = $_SESSION['user'];
+            OceneDB::insert($user_id, $id_artikel, $ocena);
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+            
+        } else {
+            echo ViewHelper::render("view/podaj_oceno.php", ["id" => $id]);
+        }
     },
     "seminarska_naloga/vsi_linki" => function () {
 

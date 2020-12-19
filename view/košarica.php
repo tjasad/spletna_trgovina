@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <?php
+require_once("model/OceneDB.php");
 if ((!isset($_SERVER["HTTPS"])) && (isset($_SESSION["role"]))){
     $url = "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
     header("Location: " . $url);
@@ -30,6 +31,11 @@ $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_C
 
 <h1>Artikli</h1>
 <?php
+$bol_prijavljen = 0;
+if(isset($_SESSION['user'])){
+    $bol_prijavljen = 1;
+}
+ #var_dump($_SESSION['user']); exit(); 
 $directory = "/home/ep/NetBeansProjects/seminarska_naloga/slike";
 $start_position = "/netbeans/seminarska_naloga/slike";
 
@@ -48,18 +54,49 @@ foreach (scandir($directory) as $file) {
         <th>Opis artikla</th>
         <th>Status artikla</th>
         <th>Slika artikla</th>
+        <th>Ocena</th>
+        <?php
+        if($bol_prijavljen == 1){ ?>
+        <th>Podaj oceno (1-5)</th>
+        <?php
+        }
+        ?>
         <th>Dodaj</th>
+       
     </tr>
 
     <div id="main">
-        <?php
-       # var_dump($articles);      
+        <?php            
         foreach ($articles as $key => $row) {
             $id = htmlspecialchars($row["article_id"]);
             $name = htmlspecialchars($row["article_name"]);
             $price = htmlspecialchars($row["article_price"]);
             $description = htmlspecialchars($row["article_description"]);
             $status = htmlspecialchars($row["article_status"]);
+            $ocene=OceneDB::ocena_za_izdelek($id);
+            $ocena = Null;            
+            if(empty($ocene)){
+                $ocena = "Ni še ocene";
+            }else{
+                $tmp_ocena = 0;
+                $tmp_st = 0;
+                #var_dump($ocene); exit();
+                foreach($ocene as $o){
+                    #var_dump($o['rating']); exit();
+                    $tmp_ocena+=$o['rating'];
+                    $tmp_st+=1;
+                }
+                $ocena = $tmp_ocena/$tmp_st;
+            }
+            $ocene_uporabnik=Null;
+            $ou_set = Null;
+            if($bol_prijavljen == 1){
+                $ocene_uporabnik=OceneDb::ocena_uporabnika_za_izdelek($_SESSION['user'], $id);
+                $ou_set = 1;
+                if(empty($ocene_uporabnik)){
+                    $ou_set = 0;
+                }
+            }
             ?>
             <div class="book">
                 <form action="<?= $url ?>" method="post">
@@ -115,6 +152,25 @@ foreach (scandir($directory) as $file) {
                         </td>
                         <?php
                             }
+                        ?>
+                        <td><?= $ocena ?></td>
+                        <?php
+                        if($bol_prijavljen == 1){
+                            if($ou_set == 1){
+                                ?>
+                            <td>
+                            <?php 
+                            print("Oceno ste že podali!");                            
+                            ?>
+                            </td>
+                            <?php
+                            }else{ ?>
+                            <td>                            
+                            <a href="<?= BASE_URL . "seminarska_naloga/ocena?id=$id" ?>">Podaj oceno</a>                             
+                            </td>
+                        <?php
+                            }
+                        }
                         ?>
                         <td>
                             <button type="submit">V košarico</button>
