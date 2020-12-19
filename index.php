@@ -78,20 +78,28 @@ $urls = [
             switch ($_POST["do"]) {
                 case "log_in_user":
                     try {
+                        #print("helo"); exit();
                         //to spremen na getUserByEmail
                         $user = UserDB::getUserByEmail($_POST["email"]);
-                        if(password_verify( $_POST["password"],  $user["password"])){
+                        if($_POST["email"] == 'prodajalec@gmail.com'){                            
+                            ViewHelper::redirect(BASE_URL . "seminarska_naloga/prijava-stranka");
+                        }
+                        else if ($_POST["email"] == 'admin@gmail.com'){                            
+                            ViewHelper::redirect(BASE_URL . "seminarska_naloga/prijava-stranka");
+                        }
+                        else if(password_verify( $_POST["password"],  $user["password"])){
 
                             $_SESSION["user"] = $user['costumer_id'];
                             $_SESSION["role"] = $user['role'];
                             ViewHelper::redirect(BASE_URL . "seminarska_naloga/trgovina");
                         }else{
-                            ViewHelper::redirect(BASE_URL . "seminarska_naloga/prijava");
+                            print("tu"); exit();
+                            ViewHelper::redirect(BASE_URL . "seminarska_naloga/prijava-stranka");
                         }
 
 
                     } catch (Exception $exc) {
-                        ViewHelper::redirect(BASE_URL . "seminarska_naloga/prijava");
+                        ViewHelper::redirect(BASE_URL . "seminarska_naloga/prijava-stranka");
                     }
                     break;
                 default:
