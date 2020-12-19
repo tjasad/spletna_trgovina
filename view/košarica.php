@@ -47,6 +47,7 @@ foreach (scandir($directory) as $file) {
         <th>Cena artikla</th>
         <th>Opis artikla</th>
         <th>Status artikla</th>
+        <th>Slika artikla</th>
         <th>Dodaj</th>
     </tr>
 
