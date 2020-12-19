@@ -24,7 +24,8 @@ create table Artikel
    article_price        float not null,
    article_description  text not null,
    article_status       bool not null,
-   primary key (article_id)
+   primary key (article_id),
+   FULLTEXT (article_name)
 );
 
 /*==============================================================*/

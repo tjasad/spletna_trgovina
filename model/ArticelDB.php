@@ -45,7 +45,7 @@ class ArticelDB
         } else {
             throw new InvalidArgumentException("No record with id $id");
         }
-    }
+    }    
 
     public static function insert($article_name, $article_price, $article_description, $article_status)
     {
@@ -73,6 +73,15 @@ class ArticelDB
         $statement->bindParam(":article_description", $article_description);
         $statement->bindParam(":article_status", $article_status);
         $statement->execute();
+    }
+
+    public static function binarno_iskanje($niz){        
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("SELECT * FROM Artikel WHERE MATCH(article_name) AGAINST(:niz IN BOOLEAN MODE)");
+        $statement->bindParam(":niz", $niz);        
+        $statement->execute();
+        $book = $statement->fetchAll();        
+        return $book;
     }
 
     public static function delete($id)

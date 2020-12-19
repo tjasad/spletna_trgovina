@@ -174,7 +174,7 @@ $urls = [
     },
     "seminarska_naloga/trgovina" => function () {
         $url = filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_SPECIAL_CHARS);
-        $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_CHARS);
+        $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_CHARS);        
         if ($method == "POST") {
             $validationRules = [
                 'do' => [
@@ -241,14 +241,29 @@ $urls = [
                     // default naj bo prazen
                     break;
             }
+        }     
+        if(isset($_POST['iskanje_ime'])){
+            $ime = htmlspecialchars($_POST[ 'iskanje_ime']);
+            $test = ArticelDB::binarno_iskanje($ime);           
+            if(empty($test)){
+                # take poivedbe ni
+                echo ViewHelper::render("view/košarica.php", [
+                    "articles" => ArticelDB::getArticlesByStatus(1)
+                ]);
+            }else{
+                echo ViewHelper::render("view/košarica.php", [
+                    "articles" => ArticelDB::binarno_iskanje($ime)
+                ]);
+            }
+        }else{
+            echo ViewHelper::render("view/košarica.php", [
+                "articles" => ArticelDB::getArticlesByStatus(1)
+            ]);
         }
-
-        echo ViewHelper::render("view/košarica.php", [
-            "articles" => ArticelDB::getArticlesByStatus(1)
-        ]);
 
 
     },
+    
     "seminarska_naloga/zakljucek" => function () {
         # var_dump($id_kolicina); exit(54);
         #print("Zaključi nakup\n");

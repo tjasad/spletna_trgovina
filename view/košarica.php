@@ -13,13 +13,20 @@ $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_C
 <head>
     <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "tabela.css" ?>">
     <meta charset="UTF-8"/>
-    <title>Košarica</title>
+    <title>Trgovina</title>
 </head>
 
 <body>
 
 <!--Navigation bar-->
 <?php include 'navigation-bar.php';?>
+<h2>Iskanje po artiklih (binarno iskanje):</h2>
+<div>
+    <form action="<?= $url  ?>" method="post">
+        <input type="text" name="iskanje_ime" placeholder="Vnesite ime artikla">
+        <input type="submit" value="Išči" class="registerbtn"/>
+    </form>
+</div>
 
 <h1>Artikli</h1>
 <table style="width:100%">
@@ -34,6 +41,7 @@ $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_C
 
     <div id="main">
         <?php
+       # var_dump($articles);      
         foreach ($articles as $key => $row) {
             $id = htmlspecialchars($row["article_id"]);
             $name = htmlspecialchars($row["article_name"]);
