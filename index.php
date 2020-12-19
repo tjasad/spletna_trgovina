@@ -78,8 +78,7 @@ $urls = [
             switch ($_POST["do"]) {
                 case "log_in_user":
                     try {
-                        #print("helo"); exit();
-                        //to spremen na getUserByEmail
+
                         $user = UserDB::getUserByEmail($_POST["email"]);
                         if($_POST["email"] == 'prodajalec@gmail.com'){                            
                             ViewHelper::redirect(BASE_URL . "seminarska_naloga/prijava-stranka");
@@ -372,11 +371,30 @@ $urls = [
     },# REST API
     "seminarska_naloga/api/artikli" => function () {
         // podatki o specifičnem artiklu
+    
         if(isset($_GET["id"])){
             ArticlesRESTController::get($_GET["id"]);
         }else{
             ArticlesRESTController::index();
         }
+    },
+    "seminarska_naloga/api/prijava" => function () {
+
+        try {
+
+            $user = UserDB::getUserByEmail($_GET["email"]);
+            if($_GET["email"] != 'prodajalec@gmail.com' && $_GET["email"] != 'admin@gmail.com' && password_verify( $_GET["password"],  $user["password"])){                            
+                echo ViewHelper::renderJSON(UserDB::getUserByEmail($_GET["email"]));
+            }else{
+               echo ViewHelper::renderJSON("Bad request", 400);
+            }
+
+
+        } catch (Exception $exc) {
+            echo ViewHelper::renderJSON($exc->getMessage(), 404);
+        }
+
+        
     }
 
 ];
