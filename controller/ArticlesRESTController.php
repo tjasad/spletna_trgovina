@@ -8,7 +8,7 @@ class ArticlesRESTController {
 
     public static function get($id) {
         try {
-            echo ViewHelper::renderJSON(ArticelDB::get(["id" => $id]));
+            echo ViewHelper::renderJSON(ArticelDB::get( $id));
         } catch (InvalidArgumentException $e) {
             echo ViewHelper::renderJSON($e->getMessage(), 404);
         }

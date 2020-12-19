@@ -29,7 +29,6 @@ class ArticelDB
 
     public static function get($id)
     {
-
         $db = DBInit::getInstance();
 
 
