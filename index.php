@@ -418,9 +418,19 @@ $urls = [
         } catch (Exception $exc) {
             echo ViewHelper::renderJSON($exc->getMessage(), 404);
         }
+  
+    },"seminarska_naloga/api/urediProfil" => function () {
 
-        
+        try {                      
+            echo ViewHelper::renderJSON(UserDB::update($_POST["id"], $_POST["name"], $_POST["surname"], $_POST["street"], $_POST["house_number"], $_POST["post"], $_POST["post_number"], $_POST["email"], password_hash($_POST["password"], PASSWORD_BCRYPT), "stranka",$_POST["status"]));
+
+        } catch (Exception $exc) {
+            echo ViewHelper::renderJSON($exc->getMessage(), 404);
+        }
+  
     }
+
+   
 
 ];
 #var_dump($path);
