@@ -93,7 +93,7 @@ $urls = [
                             $_SESSION["role"] = $user['role'];
                             ViewHelper::redirect(BASE_URL . "seminarska_naloga/trgovina");
                         }else{
-                            print("tu"); exit();
+                            var_dump($user['role']); print("tu"); exit();
                             ViewHelper::redirect(BASE_URL . "seminarska_naloga/prijava-stranka");
                         }
 

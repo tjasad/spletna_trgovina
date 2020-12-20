@@ -40,6 +40,7 @@ if (!isset($_SERVER["HTTPS"])){
             <label for="geslo"><b>Geslo</b></label>
             <input type="password" placeholder="Vnesite geslo" name="password" id="geslo"
                    value="<?= htmlspecialchars($user["password"]) ?>" required><br/>
+            <input type="hidden" name="role" value="<?= htmlspecialchars($user['role']) ?>"/>
 
 
             <?php

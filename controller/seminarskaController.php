@@ -101,7 +101,8 @@ class seminarskaController
             isset($_POST["id"]) && !empty($_POST["id"]);
 
         if ($validData) {
-            UserDB::update($_POST["id"], $_POST["name"], $_POST["surname"], $_POST["street"], $_POST["house_number"], $_POST["post"], $_POST["post_number"], $_POST["email"], password_hash($_POST["password"], PASSWORD_BCRYPT), "stranka",$_POST["status"]);
+            
+            UserDB::update($_POST["id"], $_POST["name"], $_POST["surname"], $_POST["street"], $_POST["house_number"], $_POST["post"], $_POST["post_number"], $_POST["email"], password_hash($_POST["password"], PASSWORD_BCRYPT), $_POST['role'],$_POST["status"]);
             ViewHelper::redirect(BASE_URL . "seminarska_naloga");
             //ViewHelper::redirect(BASE_URL . "user?id=" . $_POST["id"]);
         } else {
@@ -121,6 +122,7 @@ class seminarskaController
             }
             
             $user = UserDB::get($userId);
+            #var_dump($user); exit();
         }
 
         echo ViewHelper::render("view/uporabniki-edit.php", ["user" => $user]);
