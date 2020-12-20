@@ -123,54 +123,94 @@ $urls = [
         ViewHelper::redirect(BASE_URL . "seminarska_naloga");
     },
     "seminarska_naloga/artikli" => function () {
-        seminarskaController::getAllArticles();
+        if (isset($_SESSION["role"]) && ($_SESSION["role"] == 'prodajalec' || $_SESSION["role"] == 'administrator')) {
+            seminarskaController::getAllArticles();
+        }else{
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+        }
     },
     "seminarska_naloga/artikli-edit" => function () {
+        if (isset($_SESSION["role"]) && ($_SESSION["role"] == 'prodajalec' || $_SESSION["role"] == 'administrator')) {
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            seminarskaController::editArticle();
-        } else {
-            seminarskaController::article_edit();
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                seminarskaController::editArticle();
+            } else {
+                seminarskaController::article_edit();
+            }
+        }else{
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
         }
     },
     "seminarska_naloga/artikli-add" => function () {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            seminarskaController::dodaj_artikel();
+        if (isset($_SESSION["role"]) && ($_SESSION["role"] == 'prodajalec' || $_SESSION["role"] == 'administrator')) {
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                seminarskaController::dodaj_artikel();
+            }
+            seminarskaController::insertFormArticles();
+        }else{
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
         }
-        seminarskaController::insertFormArticles();
     },
     #"seminarska_naloga/zbrisi_artikel" => function () {
     #
     #    seminarskaController::deleteArticel();
     #  },
     "seminarska_naloga/ne-obdelana_narocila" => function () {
-        seminarskaController::getNeobdelanaNarocila();
+        if (isset($_SESSION["role"]) && ($_SESSION["role"] == 'prodajalec' || $_SESSION["role"] == 'administrator')) {
+            seminarskaController::getNeobdelanaNarocila();
+        }else{
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+        }
     },
     "seminarska_naloga/ne_obdelana_narocila-edit" => function () {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {            
-            seminarskaController::editNarocila();
-        } else {
-            seminarskaController::order_edit();
+        if (isset($_SESSION["role"]) && ($_SESSION["role"] == 'prodajalec' || $_SESSION["role"] == 'administrator')) {
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {            
+                seminarskaController::editNarocila();
+            } else {
+                seminarskaController::order_edit();
+            }
+        }else{
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
         }
     },
     "seminarska_naloga/potrjena_narocila" => function () {
-        seminarskaController::getPotrjenaNarocila();
+        if (isset($_SESSION["role"]) && ($_SESSION["role"] == 'prodajalec' || $_SESSION["role"] == 'administrator')) {
+            seminarskaController::getPotrjenaNarocila();
+        }else{
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+        }
     },
     "seminarska_naloga/vsa_narocila" => function () {   #  za stranko
-        $test = (int)$_SESSION["user"];
-        seminarskaController::getVsaNarocila($test);
+        if (isset($_SESSION["user"])) {
+            $test = (int)$_SESSION["user"];
+            seminarskaController::getVsaNarocila($test);
+        }else{
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+        }
     },
     "seminarska_naloga/podrobnosti_vsa_narocila" => function () {  #  za stranko
-        seminarskaController::prikaz_detajlov();
+        if (isset($_SESSION["user"])) {
+            seminarskaController::prikaz_detajlov();
+        }else{
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+        }
     },
     #"seminarska_naloga/izbrisi_narocilo" => function () {
     #    seminarskaController::deleteOrder();
     #},
     "seminarska_naloga/uredi_kolicino" => function () {
-        seminarskaController::prikazKolicine();
+        if (isset($_SESSION["role"]) && ($_SESSION["role"] == 'prodajalec' || $_SESSION["role"] == 'administrator')) {
+            seminarskaController::prikazKolicine();
+        }else{
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+        }
     },
     "seminarska_naloga/prikazi_kolicino_uporabnik" => function () {
-        seminarskaController::prikazKolicine2();
+        if (isset($_SESSION["user"])) {
+            seminarskaController::prikazKolicine2();
+        }else{
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+        }
     },
     "seminarska_naloga/trgovina" => function () {
         $url = filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -264,78 +304,82 @@ $urls = [
     },
     
     "seminarska_naloga/zakljucek" => function () {
-        # var_dump($id_kolicina); exit(54);
-        #print("Zaključi nakup\n");
-        $url = filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_SPECIAL_CHARS);
-        $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_CHARS);
-        if ($method == "POST") {
-            $validationRules = [
-                'do' => [
-                    'filter' => FILTER_VALIDATE_REGEXP,
-                    'options' => [
-                        // dopustne vrednosti spremenljivke do, popravi po potrebi
-                        "regexp" => "/^(add_into_cart|purge_cart|update_cart|save_order)$/"
+        if (isset($_SESSION["user"])) {
+            # var_dump($id_kolicina); exit(54);
+            #print("Zaključi nakup\n");
+            $url = filter_input(INPUT_SERVER, "PHP_SELF", FILTER_SANITIZE_SPECIAL_CHARS);
+            $method = filter_input(INPUT_SERVER, "REQUEST_METHOD", FILTER_SANITIZE_SPECIAL_CHARS);
+            if ($method == "POST") {
+                $validationRules = [
+                    'do' => [
+                        'filter' => FILTER_VALIDATE_REGEXP,
+                        'options' => [
+                            // dopustne vrednosti spremenljivke do, popravi po potrebi
+                            "regexp" => "/^(add_into_cart|purge_cart|update_cart|save_order)$/"
+                        ]
+                    ],
+                    'id' => [
+                        'filter' => FILTER_VALIDATE_INT,
+                        'options' => ['min_range' => 0]
+                    ],
+                    'kolicina' => [
+                        'filter' => FILTER_VALIDATE_INT,
+                        'options' => ['min_range' => 0]
                     ]
-                ],
-                'id' => [
-                    'filter' => FILTER_VALIDATE_INT,
-                    'options' => ['min_range' => 0]
-                ],
-                'kolicina' => [
-                    'filter' => FILTER_VALIDATE_INT,
-                    'options' => ['min_range' => 0]
-                ]
 
-            ];
-            $post = filter_input_array(INPUT_POST, $validationRules);
+                ];
+                $post = filter_input_array(INPUT_POST, $validationRules);
 
-            switch ($post["do"]) {
+                switch ($post["do"]) {
 
-                case "save_order":
-                    #var_dump($GLOBALS['id_narocila']);
-                    #$GLOBALS['id_narocila']+=1;
-                    #var_dump($GLOBALS['id_narocila']); exit(42);
-                    $cena = 0;
-                    foreach (ArticelDB::getAll() as $knjiga) {
-                        if (isset($_SESSION["cart"][$knjiga['article_id']])) {
-                            #var_dump($_SESSION["cart"][$knjiga['article_id']]);
-                            #var_dump((int)$knjiga['article_id']);
-                            $tmp_kolicina = $_SESSION["cart"][$knjiga['article_id']];
-                            $tmp_artikel_id = (int)$knjiga['article_id'];
-                            $tmp_cena = ((float)$knjiga['article_price']) * $tmp_kolicina;
-                            $cena += $tmp_cena;
-                            #var_dump($tmp_kolicina, $tmp_artikel_id);
+                    case "save_order":
+                        #var_dump($GLOBALS['id_narocila']);
+                        #$GLOBALS['id_narocila']+=1;
+                        #var_dump($GLOBALS['id_narocila']); exit(42);
+                        $cena = 0;
+                        foreach (ArticelDB::getAll() as $knjiga) {
+                            if (isset($_SESSION["cart"][$knjiga['article_id']])) {
+                                #var_dump($_SESSION["cart"][$knjiga['article_id']]);
+                                #var_dump((int)$knjiga['article_id']);
+                                $tmp_kolicina = $_SESSION["cart"][$knjiga['article_id']];
+                                $tmp_artikel_id = (int)$knjiga['article_id'];
+                                $tmp_cena = ((float)$knjiga['article_price']) * $tmp_kolicina;
+                                $cena += $tmp_cena;
+                                #var_dump($tmp_kolicina, $tmp_artikel_id);
+                            }
                         }
-                    }
-                    #var_dump($cena);
-                    #  i) dodam naročilo v bazo OrderDB -> zaenkrat vsi costumer_id == 1 TODO **** to je potrebno popraviti ****
-                    $test = -1;
-                    if(isset($_SESSION["user"])){
-                        $test = (int)$_SESSION["user"];
-                    }
-                    seminarskaController::dodajNarocilo($test, $cena, 2);
-                    $zadnji = seminarskaController::get_last_order_id(); # var_dump($zadnji); exit();
-
-                    #  ii) dodam v KolicinaDB
-                    foreach (ArticelDB::getAll() as $knjiga) {
-                        if (isset($_SESSION["cart"][$knjiga['article_id']])) {
-
-                            $tmp_kolicina = $_SESSION["cart"][$knjiga['article_id']];
-                            $tmp_artikel_id = (int)$knjiga['article_id'];
-                            seminarskaController::dodajKolicino($zadnji, $tmp_artikel_id, $tmp_kolicina);
+                        #var_dump($cena);
+                        #  i) dodam naročilo v bazo OrderDB -> zaenkrat vsi costumer_id == 1 TODO **** to je potrebno popraviti ****
+                        $test = -1;
+                        if(isset($_SESSION["user"])){
+                            $test = (int)$_SESSION["user"];
                         }
-                    }
-                    ViewHelper::redirect(BASE_URL . "seminarska_naloga");
-                    break;
-                default:
-                    // default naj bo prazen
-                    break;
+                        seminarskaController::dodajNarocilo($test, $cena, 2);
+                        $zadnji = seminarskaController::get_last_order_id(); # var_dump($zadnji); exit();
+
+                        #  ii) dodam v KolicinaDB
+                        foreach (ArticelDB::getAll() as $knjiga) {
+                            if (isset($_SESSION["cart"][$knjiga['article_id']])) {
+
+                                $tmp_kolicina = $_SESSION["cart"][$knjiga['article_id']];
+                                $tmp_artikel_id = (int)$knjiga['article_id'];
+                                seminarskaController::dodajKolicino($zadnji, $tmp_artikel_id, $tmp_kolicina);
+                            }
+                        }
+                        ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+                        break;
+                    default:
+                        // default naj bo prazen
+                        break;
+                }
             }
-        }
 
-        echo ViewHelper::render("view/predracun.php", [
-            "articles" => ArticelDB::getAll()
-        ]);
+            echo ViewHelper::render("view/predracun.php", [
+                "articles" => ArticelDB::getAll()
+            ]);
+        }else{
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+        }
 
     },
     "seminarska_naloga/uredi_profil" => function () {
@@ -348,18 +392,27 @@ $urls = [
         }
     },
     "seminarska_naloga/zbrisi_profil" => function () {
-
-        seminarskaController::deleteUser();
+        if (isset($_SESSION["role"]) && ($_SESSION["role"] == 'prodajalec' || $_SESSION["role"] == 'administrator')) {  
+            seminarskaController::deleteUser();
+        }else{
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+        }
 
     },
     "seminarska_naloga/prodajalci" => function () {
-
-        seminarskaController::getAllSellers();
+        if (isset($_SESSION["role"]) && ($_SESSION["role"] == 'administrator')) { 
+            seminarskaController::getAllSellers();
+        }else{
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+        }
 
     },
     "seminarska_naloga/stranke" => function () {
-
-        seminarskaController::getAllCustomers();
+        if (isset($_SESSION["role"]) && ($_SESSION["role"] == 'prodajalec' || $_SESSION["role"] == 'administrator')) {
+            seminarskaController::getAllCustomers();
+        }else{
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+        }
 
     },
     "seminarska_naloga/ocena" => function () {
