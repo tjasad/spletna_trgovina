@@ -235,7 +235,7 @@ class seminarskaController
         $validData = isset($_POST["order_id"]) && !empty($_POST["order_id"]) &&
             isset($_POST["costumer_id"]) && !empty($_POST["costumer_id"]) &&
             isset($_POST["total_price"]) && !empty($_POST["total_price"]) &&
-            isset($_POST["order_status"]) && !empty($_POST["order_status"]);
+            isset($_POST["order_status"]); #&& !empty($_POST["order_status"]);
 
         if ($validData) {
 

@@ -147,7 +147,7 @@ $urls = [
         seminarskaController::getNeobdelanaNarocila();
     },
     "seminarska_naloga/ne_obdelana_narocila-edit" => function () {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {            
             seminarskaController::editNarocila();
         } else {
             seminarskaController::order_edit();
