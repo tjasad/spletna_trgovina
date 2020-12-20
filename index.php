@@ -383,12 +383,28 @@ $urls = [
 
     },
     "seminarska_naloga/uredi_profil" => function () {
+        if (isset($_SESSION["user"])){
+            if (isset($_SESSION["role"]) && ($_SESSION["role"] == 'stranka')){
+                if(!empty($_GET)){                   
+                    ViewHelper::redirect(BASE_URL . "seminarska_naloga");
+                }else{            
+                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                        seminarskaController::editUser();
+                    } else {
+                        seminarskaController::showEditUserForm();
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            seminarskaController::editUser();
-        } else {
-            seminarskaController::showEditUserForm();
+                    }
+                }
+            }else{
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    seminarskaController::editUser();
+                } else {
+                    seminarskaController::showEditUserForm();
 
+                }
+            }
+        }else{
+            ViewHelper::redirect(BASE_URL . "seminarska_naloga");
         }
     },
     "seminarska_naloga/zbrisi_profil" => function () {

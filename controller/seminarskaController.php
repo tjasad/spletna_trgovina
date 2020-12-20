@@ -13,9 +13,9 @@ class seminarskaController
         UserDB::insert('Stranka', 'Stranka', 'a',1,'Ljubljana',1000,'stranka@gmail.com',password_hash('stranka', PASSWORD_BCRYPT),'stranka',1);
         UserDB::insert('Prodajalec', 'Prodajalec', 'a',1,'Ljubljana',1000,'prodajalec@gmail.com', password_hash('prodajalec', PASSWORD_BCRYPT),'prodajalec',1);
         UserDB::insert('Administrator', 'Administrator', 'a',1,'Ljubljana',1000,'admin@gmail.com', password_hash('admin', PASSWORD_BCRYPT),'administrator',1);
-        UserDB::insert('Ivan', 'Bratko', 'Vecna pot',113,'Ljubljana',1000,'ivan@gmail.com',password_hash('lala', PASSWORD_BCRYPT),'administrator',0);
-        UserDB::insert('Mici', 'Luna', 'Vecna pot',115,'Ljubljana',1000,'mici@gmail.com',password_hash('1234', PASSWORD_BCRYPT),'prodajalec',0);
-        UserDB::insert('Jo', 'Kip', 'Vesela cesta',1,'Ljubljana',1000,'jo@gmail.com',password_hash('tato', PASSWORD_BCRYPT),'stranka',0);        
+        UserDB::insert('Ivan', 'Bratko', 'Vecna pot',113,'Ljubljana',1000,'ivan@gmail.com',password_hash('lala', PASSWORD_BCRYPT),'administrator',1);
+        UserDB::insert('Mici', 'Luna', 'Vecna pot',115,'Ljubljana',1000,'mici@gmail.com',password_hash('1234', PASSWORD_BCRYPT),'prodajalec',1);
+        UserDB::insert('Jo', 'Kip', 'Vesela cesta',1,'Ljubljana',1000,'jo@gmail.com',password_hash('tato', PASSWORD_BCRYPT),'stranka',1);        
         ViewHelper::redirect(BASE_URL . "seminarska_naloga");
     }
 
