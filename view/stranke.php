@@ -29,7 +29,7 @@ if (!isset($_SERVER["HTTPS"])){
     </tr>
     <?php
 
-    # var_dump($articles); exit();
+    #var_dump($customers); exit();
     foreach ($customers as $key => $row) {
         #$url = htmlspecialchars($_SERVER["PHP_SELF"]) . "?do=edit&id=" . $row["id"];
         $name = $row["name"];
