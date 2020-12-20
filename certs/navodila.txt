@@ -1,7 +1,7 @@
 i) namestitev certifikatov v strežnik Apache:
     a) sudo mkdir /etc/apache2/ssl
     b) cd /home/ep/NetBeansProjects/seminarska_naloga/certs
-    c) sudo cp Administrator.p12 epca.xdb  Elektronsko_Poslovanje_CA.crt  localhost.pem  Prodajalec.p12 /etc/apache2/ssl
+    c) sudo cp Administrator.p12 epca.xdb  ep_seminar.crt  localhost.pem  Prodajalec.p12 /etc/apache2/ssl
     d) sudo a2enmod ssl
     e) sudo a2enmod rewrite
     f) sudo a2ensite default-ssl.conf
@@ -26,8 +26,8 @@ naslednje vrstice:
             SSLVerifyDepth 1
             SSLOptions +ExportCertData
 </Location>
-potem restartas apache strežnik: sudo service apache2 restart
+Potem se restarta apache strežnik: sudo service apache2 restart
 
-It should work, ko se prijaviš kot uslužbenec. Ker se na firefoxu shranjujejo certifikati je treba pred vsako prijavo naredit ctrl+shift+delete
-(Time range to delete: Everithing) pa selectan more bit pri Data -> Site preferences.
+Deluje pri prijavi kot uslužbenec. Ker se na firefoxu shranjujejo certifikati je treba pred vsako prijavo naredit ctrl+shift+delete
+(Time range to delete: Everithing) in izbran more biti pri Data -> Site preferences.
 
