@@ -41,8 +41,11 @@ class seminarskaController
             #var_dump($response); exit();
             if($response->success){
                 echo "Success Captcha Validation!";            
-                UserDB::insert($_POST["name"], $_POST["surname"], $_POST["street"], $_POST["house_number"], $_POST["post"], $_POST["post_number"], $_POST["email"],password_hash($_POST["password"], PASSWORD_BCRYPT), "stranka",FALSE);
-                self::send_mail($_POST["email"], "localhost.com");
+                UserDB::insert($_POST["name"], $_POST["surname"], $_POST["street"], $_POST["house_number"], $_POST["post"], $_POST["post_number"], $_POST["email"],password_hash($_POST["password"], PASSWORD_BCRYPT), "stranka",0);
+                $uid = UserDB::get_id_userByMail($_POST['email']);
+                $iid = $uid['costumer_id'];               
+                $naslov = "https://localhost/netbeans/seminarska_naloga/index.php/seminarska_naloga/potrditev?id=$iid";
+                self::send_mail(htmlspecialchars($_POST["email"]), $naslov);
                 ViewHelper::redirect(BASE_URL . "seminarska_naloga");
             }else{
                 echo "Captcha Validation Failed!";

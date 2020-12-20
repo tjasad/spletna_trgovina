@@ -61,6 +61,22 @@ class UserDB
         }
     }
 
+    public static function get_id_userByMail($email){
+        $db = DBInit::getInstance();
+
+        $statement = $db->prepare("SELECT costumer_id FROM Uporabnik WHERE (email = :email)");
+        $statement->bindParam(":email", $email, PDO::PARAM_STR);
+        $statement->execute();
+
+        $user = $statement->fetch();
+
+        if ($user != null) {
+            return $user;
+        } else {
+            throw new InvalidArgumentException("No user with email $email");
+        }
+    }
+
     public static function get($id)
     {
 
@@ -80,7 +96,7 @@ class UserDB
         }
     }
 
-    public static function insert($name, $surname, $street, $house_number, $post, $post_number, $email, $password, $role,$status)
+    public static function insert($name, $surname, $street, $house_number, $post, $post_number, $email, $password, $role, $status)
     {
         $db = DBInit::getInstance();
 
@@ -115,6 +131,14 @@ class UserDB
         $statement->bindParam(":email", $email);
         $statement->bindParam(":password", $password);
         $statement->bindParam(":role", $role);
+        $statement->bindParam(":status", $status);
+        $statement->execute();
+    }
+
+    public static function update_status($costumer_id, $status){
+        $db = DBInit::getInstance();
+        $statement = $db->prepare("UPDATE Uporabnik SET status = :status WHERE costumer_id = :costumer_id");
+        $statement->bindParam(":costumer_id", $costumer_id);
         $statement->bindParam(":status", $status);
         $statement->execute();
     }

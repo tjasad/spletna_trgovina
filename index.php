@@ -380,6 +380,13 @@ $urls = [
             echo ViewHelper::render("view/podaj_oceno.php", ["id" => $id]);
         }
     },
+    "seminarska_naloga/potrditev" => function() {
+        UserDB::update_status($_GET['id'], TRUE);
+        print("Dobrodošli na potrditveni strani. Vaš račun je uspešno aktiviran!");
+        sleep(3);
+        ViewHelper::redirect(BASE_URL. "seminarska_naloga");        
+
+    },
     "seminarska_naloga/vsi_linki" => function () {
 
         echo ViewHelper::render("view/zlistani_gumbi.php", []);
